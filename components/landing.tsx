@@ -80,7 +80,7 @@ const HERO_POINTS = [
   "Your first working app can be live tonight.",
 ];
 
-function Hero() {
+function Hero({ showAmount = true }: { showAmount?: boolean }) {
   return (
     <section>
       <Container className="py-10 md:py-16 lg:py-20">
@@ -105,12 +105,21 @@ function Hero() {
               <br />
               AI builds it for you.
               <br />
-              Compete for <span className="hl">{PRIZE}</span>
+              {showAmount ? (
+                <>
+                  Compete for <span className="hl">{PRIZE}</span>
+                </>
+              ) : (
+                <>
+                  Mo invests in <span className="hl">one of you</span>
+                </>
+              )}
             </h1>
 
             <p className="mx-auto mt-5 max-w-[46ch] text-[16.5px] leading-[1.6] text-slate md:mt-6 md:text-[19px] lg:mx-0">
-              Mo is putting {PRIZE} of his own money into one business from this
-              group. No coding, and nothing to pay.
+              Mo is putting{" "}
+              {showAmount ? `${PRIZE} of his own money` : "his own money"} into
+              one business from this group. No coding, and nothing to pay.
             </p>
 
             <div className="mt-7">
@@ -171,7 +180,7 @@ function Hero() {
  * black for a single block buys that contrast once, and the embers make it the
  * only moving thing on the page, so it takes the attention it is asking for.
  */
-export function FirstPlace() {
+export function FirstPlace({ showAmount = true }: { showAmount?: boolean }) {
   return (
     <section className="py-10 md:py-14">
       <Container>
@@ -225,22 +234,39 @@ export function FirstPlace() {
                     light the way metal does, which a flat two stop gradient
                     cannot, and the sparkles sit over it rather than in it. */}
                 <div className="relative mx-auto mt-6 w-full max-w-[440px] lg:mx-0">
-                  <img
-                    src="/assets/fifty-gold.webp"
-                    alt={PRIZE}
-                    width={1000}
-                    height={307}
-                    loading="eager"
-                    decoding="async"
-                    className="w-full"
-                  />
+                  {/* Without the figure the panel still needs one object in
+                      real gold to look at, and the line that earns it is the
+                      one about whose money this is: a sponsor is the first
+                      thing a reader assumes, and the wrong thing to assume. */}
+                  {showAmount ? (
+                    <img
+                      src="/assets/fifty-gold.webp"
+                      alt={PRIZE}
+                      width={1000}
+                      height={307}
+                      loading="eager"
+                      decoding="async"
+                      className="w-full"
+                    />
+                  ) : (
+                    <img
+                      src="/assets/own-money-gold.webp"
+                      alt="His own money"
+                      width={1200}
+                      height={522}
+                      loading="eager"
+                      decoding="async"
+                      className="w-full"
+                    />
+                  )}
                   <Sparkles />
                 </div>
 
                 <p className="mx-auto mt-6 max-w-[42ch] text-[17px] leading-[1.6] text-[#f5f2ea]/75 md:text-[18px] lg:mx-0">
-                  Mo puts {PRIZE} of his own money into one business built by
-                  someone in this group, for a {PRIZE_EQUITY} stake on terms
-                  published before you enter.
+                  Mo puts{" "}
+                  {showAmount ? `${PRIZE} of his own money` : "his own money"}{" "}
+                  into one business built by someone in this group, for a{" "}
+                  {PRIZE_EQUITY} stake on terms published before you enter.
                 </p>
 
                 {PRIZE_RING_FENCED && (
@@ -252,7 +278,13 @@ export function FirstPlace() {
 
               {/* A real cutout now. The previous art had its glow baked in, so
                   it could only be faded in with a radial mask, and the mask was
-                  the first thing you saw. */}
+                  the first thing you saw.
+
+                  No drop-shadow on it. A CSS filter promotes the image to its
+                  own composited layer, and on a panel this dark the edge of
+                  that layer showed up on phones as a faint rectangle around
+                  the stack. The shadow was black on a #050506 ground, so it
+                  was invisible anyway and only the artefact was left. */}
               <div className="relative mx-auto w-full max-w-[360px]">
                 <img
                   src="/assets/hero-cash.webp"
@@ -261,7 +293,7 @@ export function FirstPlace() {
                   height={800}
                   loading="lazy"
                   decoding="async"
-                  className="w-full drop-shadow-[0_24px_50px_rgba(0,0,0,0.75)]"
+                  className="w-full"
                 />
                 {/* White, not a smoked pill: against the deepest panel on the
                     page it reads as a real object sitting on the image rather
@@ -586,13 +618,13 @@ export function Footer() {
 
 /* -------------------------------- landing -------------------------------- */
 
-export function Landing() {
+export function Landing({ showAmount = true }: { showAmount?: boolean }) {
   return (
     <>
       <TopBar />
       <main>
-        <Hero />
-        <FirstPlace />
+        <Hero showAmount={showAmount} />
+        <FirstPlace showAmount={showAmount} />
         <Prize />
         <ClosingCTA cta={<ScrollToForm />} />
       </main>

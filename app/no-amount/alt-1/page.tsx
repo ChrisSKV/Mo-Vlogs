@@ -14,18 +14,18 @@ export const metadata: Metadata = {
   title: "The Build Challenge | Mo Vlogs",
   description:
     "You have the idea. AI builds it for you. Free to enter, and Mo invests his own money in one business from this group.",
-  // A variant must never compete with the control in search.
   robots: { index: false, follow: false },
 };
 
-export default function AltPage() {
+/** The dark variant with the figure withheld. See /no-amount for why. */
+export default function NoAmountAltPage() {
   return (
     <div className="theme-dark min-h-screen">
       <OptinModalProvider>
         <TopBar />
         <main>
-          <HeroDark />
-          <FirstPlace />
+          <HeroDark showAmount={false} />
+          <FirstPlace showAmount={false} />
           <Prize />
           <ClosingCTA cta={<OpenOptin />} />
         </main>
