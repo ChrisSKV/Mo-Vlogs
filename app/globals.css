@@ -1,0 +1,351 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------------------
+   THE BUILD CHALLENGE — design system.
+
+   Light, warm, generously spaced, on the house scale: 70rem container, display
+   type 34px climbing to 46px, sections at 4rem opening to 6rem.
+
+   Warm neutrals rather than the blue-grey ramp, because the accent is gold and
+   Dubai — a cool grey under gold turns it green. Gold is the ACCENT on a light
+   ground, never the ground itself: a dark page plated in gold is the exact
+   silhouette of the impersonation scams Mo's fans were warned about, which is
+   also why the earlier dark draft was the wrong call.
+   ------------------------------------------------------------------------- */
+
+@theme {
+  --color-white: #ffffff;
+  --color-surface: #faf8f4;
+  --color-surface-2: #f3efe7;
+
+  --color-ink: #17140d;
+  --color-ink-2: #2e2a20;
+  /* For the dark surfaces. Near neutral rather than the warm ink, because
+     under a warm glow #17140d turns visibly brown across a large panel. */
+  --color-ink-deep: #0c0b09;
+  --color-slate: #4d4738;
+  --color-muted: #7b7466;
+  --color-faint: #a09889;
+
+  --color-line: #e9e4d9;
+  --color-line-2: #d9d2c3;
+
+  --color-gold: #c28f22;
+  --color-gold-top: #dcae45;
+  --color-gold-deep: #9a6f13;
+  --color-gold-soft: #fdf6e6;
+  --color-gold-line: #efdfb8;
+
+  --color-green: #008340;
+  --color-green-soft: #e7f5ed;
+  --color-red: #c5442f;
+
+  --cta-from: #2e2a20;
+  --cta-to: #17140d;
+  --cta-ink: #ffffff;
+  --cta-shadow: rgba(23, 20, 13, 0.5);
+  --cta-lift: rgba(255, 255, 255, 0.16);
+  /* Shape and glow are tokens too, so a page has ONE button and only its
+     colour answers to the surface it sits on. */
+  --cta-radius: 1rem;
+  --cta-glow: 0 14px 30px -12px var(--cta-shadow);
+
+  --font-display: var(--font-display), "Inter Tight", ui-sans-serif, system-ui, sans-serif;
+
+  --shadow-sm: 0 1px 2px rgba(23, 20, 13, 0.06), 0 1px 3px rgba(23, 20, 13, 0.04);
+  --shadow-md: 0 10px 30px -14px rgba(23, 20, 13, 0.2);
+  --shadow-lg: 0 30px 60px -28px rgba(23, 20, 13, 0.3);
+  --shadow-float: 0 2px 22px rgba(23, 20, 13, 0.08), 0 30px 60px -28px rgba(23, 20, 13, 0.28);
+}
+
+html {
+  background: var(--color-surface);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--color-surface);
+  color: var(--color-ink);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Committed to one light world: the page renders the same for every visitor,
+   which is part of what makes it recognisable and checkable. */
+
+::selection {
+  background: var(--color-gold-soft);
+  color: var(--color-ink);
+}
+
+:where(a, button, input, textarea, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* The decorative wash behind the form bleeds past its card, which would push
+   the document wider than the viewport and scroll the page sideways. Clipped
+   on main, not body, because the header is position:sticky and sits outside
+   main — clipping an ancestor of a sticky element silently kills the stick. */
+main {
+  overflow-x: hidden;
+}
+
+/* ------------------------------------------------------------ dark mode */
+
+/**
+ * The dark variant, scoped to a wrapper rather than a media query: it is an
+ * A/B alternative we choose to serve, not a system preference.
+ *
+ * It is an inversion of ROLES, not a repaint. On the light page the prize
+ * panel works because it is the one dark object on a pale ground. That device
+ * is gone here, so the relationship flips: the page sits at a middle dark, the
+ * cards LIFT toward the light, and the prize panel SINKS to the deepest black
+ * on the page. It reads as a window onto something rather than a block laid on
+ * top, which is the only honest way to put black on black.
+ *
+ * The CTA flips with it. Near black on cream, warm gold on ink: in both cases
+ * the button is the highest contrast object on the page.
+ */
+.theme-dark {
+  /* Neutral, near black. The first pass carried the light theme's warm bias
+     down into the darks, and warm greys at this luminance read as olive. */
+  --color-white: #17181a;        /* raised card surface */
+  --color-surface: #0a0a0b;      /* the page ground */
+  --color-surface-2: #121315;    /* field wells, sunk below the card */
+
+  --color-ink: #f2f3f5;
+  --color-ink-2: #d7d9dd;
+  --color-slate: #b5b8bf;
+  --color-muted: #85888f;
+  --color-faint: #5f6268;
+
+  --color-line: #232528;
+  --color-line-2: #32353a;
+
+  /* Deeper than the ground, so the prize panel is the floor of the page. */
+  --color-ink-deep: #050506;
+
+  --color-gold: #dcae45;
+  --color-gold-top: #f0cd77;
+  --color-gold-deep: #c9973a;
+  --color-gold-soft: #2a2317;
+  --color-gold-line: #4a3c1e;
+
+  --color-green: #2bd673;
+  --color-green-soft: #15251c;
+  --color-red: #e5876f;
+
+  --cta-from: #f0cd77;
+  --cta-to: #c28f22;
+  --cta-ink: #1a1408;
+  --cta-shadow: rgba(220, 174, 69, 0.5);
+  --cta-lift: rgba(255, 255, 255, 0.45);
+  --cta-radius: 999px;
+  --cta-glow: 0 0 0 0 transparent;
+
+  background: var(--color-surface);
+  color: var(--color-ink);
+}
+
+/* The page ground has to follow the variant, or the body shows through around
+   it in the other theme's colour. */
+.theme-dark ::selection {
+  background: var(--color-gold);
+  color: #14110b;
+}
+
+/* ------------------------------------------------------------ hero grid */
+
+/**
+ * Mobile order is headline, FORM, then the supporting points — the form must
+ * not sit behind a screen of copy on the ~88% of traffic that arrives on a
+ * phone. Desktop puts the form beside the copy and lets it span both rows.
+ */
+.hero-grid {
+  display: grid;
+  grid-template-areas:
+    "copy"
+    "form"
+    "points";
+  gap: 2rem;
+}
+.hero-copy { grid-area: copy; }
+.hero-form { grid-area: form; margin-top: 1.5rem; }
+.hero-points { grid-area: points; }
+
+@media (min-width: 1024px) {
+  .hero-grid {
+    grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+    grid-template-areas:
+      "copy form"
+      "points form";
+    column-gap: 4rem;
+    row-gap: 2rem;
+    align-items: start;
+  }
+  /* Side by side, the stacking gap is not doing any work. */
+  .hero-form { margin-top: 0; }
+}
+
+/* ------------------------------------------------------------- highlight */
+
+/* The house signature: the load-bearing phrase sits in a tilted block that
+   springs in, then breathes. Exactly once per page — it stops being emphasis
+   the moment there are two. */
+.hl {
+  display: inline-block;
+  padding: 0.04em 0.26em 0.12em;
+  border-radius: 0.16em;
+  background: linear-gradient(168deg, var(--color-gold-top), var(--color-gold) 58%, var(--color-gold-deep));
+  color: #fffdf7;
+  box-shadow: 0 14px 32px -14px rgba(194, 143, 34, 0.75);
+  transform: rotate(-2deg);
+  animation:
+    hl-in 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 0.25s both,
+    hl-sway 3.6s ease-in-out 1.4s infinite;
+}
+@keyframes hl-in {
+  0%   { transform: rotate(0deg) scale(1); }
+  60%  { transform: rotate(-3.2deg) scale(1.04); }
+  100% { transform: rotate(-2deg) scale(1); }
+}
+@keyframes hl-sway {
+  0%, 100% { transform: rotate(-2deg); }
+  50%      { transform: rotate(-1.1deg); }
+}
+
+/* ------------------------------------------------------------------ orbs */
+
+/* Two soft golden masses drifting behind the prize panel. Two independent
+   loops at different periods and directions, so they never return to the same
+   relative position and the movement never reads as a loop. */
+@keyframes orb-a {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  33%      { transform: translate3d(7%, 9%, 0) scale(1.14); }
+  66%      { transform: translate3d(-5%, 4%, 0) scale(0.92); }
+}
+@keyframes orb-b {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1.06); }
+  40%      { transform: translate3d(-8%, -7%, 0) scale(0.9); }
+  75%      { transform: translate3d(4%, -11%, 0) scale(1.18); }
+}
+.orb-a { animation: orb-a 26s ease-in-out infinite; }
+.orb-b { animation: orb-b 34s ease-in-out infinite; }
+
+/* ------------------------------------------------------------------ misc */
+
+@keyframes livedot {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.3; }
+}
+.livedot { animation: livedot 1.8s ease-in-out infinite; }
+
+/* Glints on the gold lettering. Scale plus rotate plus opacity only, so it
+   stays on the compositor and never touches layout. */
+@keyframes twinkle {
+  0%, 72%, 100% { transform: scale(0) rotate(0deg); opacity: 0; }
+  84%           { transform: scale(1) rotate(70deg); opacity: 1; }
+}
+.twinkle {
+  animation-name: twinkle;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  animation-iteration-count: infinite;
+  filter: drop-shadow(0 0 4px rgba(255, 232, 170, 0.9));
+}
+
+@keyframes ringpulse {
+  0%        { transform: scale(1);   opacity: 0.5; }
+  70%, 100% { transform: scale(1.5); opacity: 0; }
+}
+.ringpulse { animation: ringpulse 2.1s cubic-bezier(0, 0, 0.2, 1) infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  /* The tilt is the design, not the motion — keep the angle, drop the sway. */
+  .hl { transform: rotate(-2deg); }
+}
+
+/* A sheen crossing the primary CTA every 3s.
+   Wide and low contrast on purpose: a narrow specular band is the thing that
+   makes a button look like a banner ad. This one is a broad soft highlight
+   that reads as light moving over metal, and it rests for most of the cycle
+   so it never becomes a strobe in the corner of the eye. */
+.cta-sweep::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    100deg,
+    transparent 34%,
+    rgba(255, 255, 255, 0.14) 44%,
+    rgba(255, 255, 255, 0.34) 50%,
+    rgba(255, 255, 255, 0.14) 56%,
+    transparent 66%
+  );
+  transform: translateX(-130%);
+  animation: cta-sweep 3s cubic-bezier(0.33, 0, 0.2, 1) infinite;
+}
+@keyframes cta-sweep {
+  0%, 4% { transform: translateX(-130%); }
+  34%, 100% { transform: translateX(130%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cta-sweep::after { animation: none; opacity: 0; }
+}
+
+/* The dark variant themes a wrapper div, not the document, so the page behind
+   it stayed cream and flashed through on rubber-band overscroll and under the
+   mobile URL bar. Paint the document to match whichever theme is mounted. */
+html:has(.theme-dark),
+body:has(.theme-dark) {
+  background: #0a0a0b;
+}
+
+/* ---------------------------------------------------- headline highlights */
+
+/* A: the line set in the CTA's own gold, with the glow carried by a blurred
+   clone behind it rather than a text-shadow, so the gradient stays crisp. */
+.hl-gold {
+  position: relative;
+  background: linear-gradient(172deg, var(--color-gold-top), var(--color-gold) 52%, var(--color-gold-deep));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.hl-gold::before {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  color: var(--color-gold);
+  filter: blur(18px);
+  opacity: 0.34;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hl-gold::before { filter: blur(14px); }
+}
+
+/* A panel that is dark in BOTH themes.
+
+   The button and the trust note inside it have to answer to the surface they
+   sit on, not to the page theme: on the control the page is light, so the CTA
+   token is near black, which would put a black button on a black panel. The
+   surface restates the tokens instead of the components carrying a second set
+   of classes, so the shape stays identical and only the colour moves. */
+.surface-dark {
+  --cta-from: #f0cd77;
+  --cta-to: #c28f22;
+  --cta-ink: #1a1408;
+  --cta-lift: rgba(255, 255, 255, 0.45);
+  --cta-glow: 0 0 0 0 transparent;
+  --color-green: #2bd673;
+}

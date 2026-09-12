@@ -1,0 +1,1183 @@
+<title>The Build Challenge Funnel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root {
+  --ground: #f7f6f3;
+  --surface: #ffffff;
+  --surface-sunk: #efece4;
+  --ink: #17150f;
+  --ink-soft: #45413a;
+  --muted: #6f6a5d;
+  --faint: #948e80;
+  --hairline: #e2dfd6;
+  --hairline-strong: #cfcabd;
+  --gold: #9a7118;
+  --gold-bright: #b8892c;
+  --gold-wash: #f3ead4;
+  --blocker: #a6321f;
+  --blocker-wash: #f8e6e1;
+  --ready: #2f6b45;
+  --ready-wash: #e2efe6;
+  --client: #2d5c86;
+  --client-wash: #e3edf5;
+  --code-ground: #14130f;
+  --code-ink: #e8e3d5;
+  --code-dim: #8d8878;
+  --measure: 68ch;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ground: #131210;
+    --surface: #1c1a17;
+    --surface-sunk: #100f0d;
+    --ink: #f1eee6;
+    --ink-soft: #cdc8bb;
+    --muted: #9a9488;
+    --faint: #756f63;
+    --hairline: #2c2926;
+    --hairline-strong: #413d37;
+    --gold: #d4aa50;
+    --gold-bright: #ecd390;
+    --gold-wash: #2a2317;
+    --blocker: #e5876f;
+    --blocker-wash: #2e1a15;
+    --ready: #7cba95;
+    --ready-wash: #14241a;
+    --client: #8fb9dd;
+    --client-wash: #14212c;
+    --code-ground: #0b0a09;
+    --code-ink: #e8e3d5;
+    --code-dim: #7d7768;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground: #131210;
+  --surface: #1c1a17;
+  --surface-sunk: #100f0d;
+  --ink: #f1eee6;
+  --ink-soft: #cdc8bb;
+  --muted: #9a9488;
+  --faint: #756f63;
+  --hairline: #2c2926;
+  --hairline-strong: #413d37;
+  --gold: #d4aa50;
+  --gold-bright: #ecd390;
+  --gold-wash: #2a2317;
+  --blocker: #e5876f;
+  --blocker-wash: #2e1a15;
+  --ready: #7cba95;
+  --ready-wash: #14241a;
+  --client: #8fb9dd;
+  --client-wash: #14212c;
+  --code-ground: #0b0a09;
+  --code-ink: #e8e3d5;
+  --code-dim: #7d7768;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: "IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 16px;
+  line-height: 1.62;
+  -webkit-font-smoothing: antialiased;
+  margin: 0;
+}
+
+.wrap {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 0 24px 120px;
+}
+
+.col { max-width: var(--measure); }
+
+a { color: var(--gold); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+a:focus-visible, summary:focus-visible, button:focus-visible {
+  outline: 2px solid var(--gold-bright);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ---------------------------------------------------------------- masthead */
+
+.mast {
+  border-bottom: 1px solid var(--hairline-strong);
+  padding: 56px 0 28px;
+  margin-bottom: 8px;
+}
+.eyebrow {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin: 0 0 18px;
+}
+h1 {
+  font-family: "Archivo", ui-sans-serif, system-ui, sans-serif;
+  font-weight: 800;
+  font-size: clamp(2.4rem, 6.5vw, 4rem);
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  margin: 0 0 20px;
+  text-wrap: balance;
+  max-width: 16ch;
+}
+.standfirst {
+  font-size: 1.115rem;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  max-width: 58ch;
+  margin: 0 0 28px;
+}
+.mast-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 28px;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 11.5px;
+  color: var(--faint);
+  letter-spacing: 0.02em;
+}
+.mast-meta b { color: var(--ink-soft); font-weight: 500; }
+
+/* -------------------------------------------------------------------- toc */
+
+.toc {
+  border: 1px solid var(--hairline);
+  background: var(--surface);
+  border-radius: 3px;
+  padding: 22px 26px;
+  margin: 40px 0 72px;
+}
+.toc h2 {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--faint);
+  margin: 0 0 14px;
+  font-weight: 500;
+}
+.toc ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  columns: 2;
+  column-gap: 40px;
+  counter-reset: toc -1;
+}
+@media (max-width: 640px) { .toc ol { columns: 1; } }
+.toc li { counter-increment: toc; break-inside: avoid; }
+.toc a {
+  display: flex;
+  gap: 12px;
+  padding: 5px 0;
+  color: var(--ink-soft);
+  text-decoration: none;
+  font-size: 14.5px;
+  border-bottom: 1px solid transparent;
+}
+.toc a:hover { color: var(--gold); }
+.toc a::before {
+  content: counter(toc, decimal-leading-zero);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 11.5px;
+  color: var(--faint);
+  padding-top: 3px;
+  flex: none;
+}
+
+/* --------------------------------------------------------------- sections */
+
+section { margin: 0 0 88px; scroll-margin-top: 24px; }
+
+.sec-head {
+  display: flex;
+  align-items: baseline;
+  gap: 18px;
+  border-top: 2px solid var(--ink);
+  padding-top: 14px;
+  margin-bottom: 26px;
+}
+.sec-num {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--gold);
+  letter-spacing: 0.06em;
+  flex: none;
+  padding-top: 6px;
+}
+h2 {
+  font-family: "Archivo", sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.5rem, 3.4vw, 2.05rem);
+  line-height: 1.12;
+  letter-spacing: -0.022em;
+  margin: 0;
+  text-wrap: balance;
+}
+
+h3 {
+  font-family: "Archivo", sans-serif;
+  font-weight: 700;
+  font-size: 1.12rem;
+  letter-spacing: -0.012em;
+  line-height: 1.3;
+  margin: 40px 0 12px;
+  text-wrap: balance;
+}
+h4 {
+  font-family: "IBM Plex Mono", monospace;
+  font-weight: 600;
+  font-size: 11.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 32px 0 10px;
+}
+
+p { margin: 0 0 16px; max-width: var(--measure); }
+ul, ol { max-width: var(--measure); padding-left: 20px; margin: 0 0 18px; }
+li { margin-bottom: 7px; }
+strong { font-weight: 600; }
+em { font-style: italic; color: var(--ink-soft); }
+
+.lede {
+  font-size: 1.06rem;
+  color: var(--ink-soft);
+  max-width: 62ch;
+}
+
+/* ------------------------------------------------------------------ chips */
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 2px;
+  white-space: nowrap;
+  vertical-align: 2px;
+}
+.chip-locked { background: var(--ready-wash); color: var(--ready); }
+.chip-client { background: var(--client-wash); color: var(--client); }
+.chip-blocker { background: var(--blocker-wash); color: var(--blocker); }
+
+.chiprow { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 24px; }
+
+/* ------------------------------------------------------------- copy decks */
+
+.deck {
+  background: var(--code-ground);
+  color: var(--code-ink);
+  border-radius: 4px;
+  margin: 18px 0 26px;
+  overflow: hidden;
+  border: 1px solid var(--hairline-strong);
+}
+.deck-label {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--gold);
+  padding: 11px 18px 9px;
+  border-bottom: 1px solid rgba(255,255,255,0.09);
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+}
+.deck-label span:last-child { color: var(--code-dim); letter-spacing: 0.06em; }
+.deck pre {
+  margin: 0;
+  padding: 18px;
+  overflow-x: auto;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 13px;
+  line-height: 1.72;
+  white-space: pre;
+  tab-size: 2;
+}
+.deck pre .dim { color: var(--code-dim); }
+.deck pre .hi { color: var(--gold); }
+
+/* ----------------------------------------------------------------- tables */
+
+.tablewrap { overflow-x: auto; margin: 20px 0 28px; }
+table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 14.5px;
+  min-width: 520px;
+}
+th {
+  text-align: left;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 600;
+  padding: 0 16px 9px 0;
+  border-bottom: 1px solid var(--hairline-strong);
+  vertical-align: bottom;
+}
+td {
+  padding: 12px 16px 12px 0;
+  border-bottom: 1px solid var(--hairline);
+  vertical-align: top;
+  color: var(--ink-soft);
+}
+td:first-child { color: var(--ink); font-weight: 500; }
+tbody tr:last-child td { border-bottom: none; }
+.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+/* ----------------------------------------------------------------- callout */
+
+.callout {
+  border-left: 3px solid var(--gold);
+  background: var(--gold-wash);
+  padding: 18px 22px;
+  margin: 24px 0;
+  border-radius: 0 3px 3px 0;
+  max-width: var(--measure);
+}
+.callout.warn { border-left-color: var(--blocker); background: var(--blocker-wash); }
+.callout p:last-child { margin-bottom: 0; }
+.callout-t {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--gold);
+  margin: 0 0 8px;
+}
+.callout.warn .callout-t { color: var(--blocker); }
+
+/* --------------------------------------------------------- finding blocks */
+
+.findings { display: grid; gap: 1px; background: var(--hairline); border: 1px solid var(--hairline); margin: 28px 0 8px; }
+.finding { background: var(--surface); padding: 22px 24px; }
+.finding-n {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  color: var(--gold);
+  font-weight: 600;
+  margin: 0 0 8px;
+}
+.finding h3 { margin: 0 0 10px; font-size: 1.06rem; }
+.finding p { margin-bottom: 10px; font-size: 14.8px; }
+.finding p:last-child { margin-bottom: 0; }
+.finding .sofar {
+  font-size: 13.5px;
+  color: var(--muted);
+  border-top: 1px solid var(--hairline);
+  padding-top: 10px;
+  margin-top: 12px;
+}
+.finding .sofar b { color: var(--ink-soft); font-weight: 600; }
+
+/* ------------------------------------------------------------ fold diagram */
+
+.fold {
+  display: grid;
+  grid-template-columns: minmax(0, 300px) minmax(0, 1fr);
+  gap: 32px;
+  align-items: start;
+  margin: 26px 0 30px;
+}
+.phone {
+  border: 2px solid var(--ink);
+  border-radius: 20px;
+  padding: 7px;
+  background: var(--surface);
+}
+.phone-screen { border-radius: 13px; overflow: hidden; background: var(--code-ground); }
+.band {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 0 11px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.03em;
+  color: var(--code-dim);
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  overflow: hidden;
+}
+.band b { color: var(--code-ink); font-weight: 500; letter-spacing: 0.05em; }
+.band.is-form { background: rgba(212,170,80,0.10); }
+.band.is-form b { color: var(--gold); }
+.band.is-cta { background: var(--gold); }
+.band.is-cta b, .band.is-cta span { color: #14130f; }
+.band.below { background: repeating-linear-gradient(135deg, transparent, transparent 5px, rgba(255,255,255,0.035) 5px, rgba(255,255,255,0.035) 10px); }
+.foldline {
+  border-top: 2px dashed var(--blocker);
+  margin: 0;
+  position: relative;
+  height: 0;
+}
+.foldline::after {
+  content: "FOLD · 640px";
+  position: absolute;
+  right: 8px;
+  top: 3px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: var(--blocker);
+}
+.fold-notes { font-size: 14.5px; }
+.fold-notes p { font-size: 14.5px; }
+
+/* ------------------------------------------------------------------- misc */
+
+.swatches { display: flex; flex-wrap: wrap; gap: 14px; margin: 20px 0 26px; }
+.sw { width: 104px; }
+.sw i {
+  display: block;
+  height: 56px;
+  border-radius: 3px;
+  border: 1px solid var(--hairline-strong);
+}
+.sw code {
+  display: block;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10.5px;
+  color: var(--muted);
+  margin-top: 6px;
+  letter-spacing: 0.02em;
+}
+.sw b { display: block; font-size: 11.5px; font-weight: 500; margin-top: 1px; }
+
+details.q {
+  border-bottom: 1px solid var(--hairline);
+  max-width: var(--measure);
+}
+details.q summary {
+  cursor: pointer;
+  padding: 14px 0;
+  font-weight: 500;
+  font-size: 15.5px;
+  list-style: none;
+  display: flex;
+  gap: 12px;
+  align-items: baseline;
+}
+details.q summary::-webkit-details-marker { display: none; }
+details.q summary::before {
+  content: "+";
+  font-family: "IBM Plex Mono", monospace;
+  color: var(--gold);
+  font-size: 15px;
+  flex: none;
+}
+details.q[open] summary::before { content: "–"; }
+details.q .a { padding: 0 0 16px 24px; font-size: 14.5px; color: var(--ink-soft); }
+details.q .a p { font-size: 14.5px; margin-bottom: 10px; }
+details.q .a p:last-child { margin-bottom: 0; }
+
+.footer {
+  border-top: 1px solid var(--hairline-strong);
+  margin-top: 80px;
+  padding-top: 22px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 11.5px;
+  color: var(--faint);
+  letter-spacing: 0.02em;
+}
+
+code.inl {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.875em;
+  background: var(--surface-sunk);
+  padding: 1px 5px;
+  border-radius: 2px;
+  color: var(--ink-soft);
+}
+
+@media (max-width: 720px) {
+  .fold { grid-template-columns: 1fr; }
+  .sec-head { gap: 12px; }
+  .wrap { padding: 0 18px 80px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}
+</style>
+
+<div class="wrap">
+
+<header class="mast">
+  <p class="eyebrow">Funnel specification · v1 · 12 September 2026</p>
+  <h1>The Build Challenge</h1>
+  <p class="standfirst">A three-field opt-in funnel for Mo Vlogs × Base44, built around a filmed investment competition. Section-by-section page framework, final copy, and the decisions the client still owes us.</p>
+  <div class="mast-meta">
+    <span><b>Client</b> Mo Vlogs / Dzigi</span>
+    <span><b>Stack</b> Next.js 16 · Tailwind v4 · Neon · Vercel</span>
+    <span><b>Window</b> 48 hours to launch</span>
+  </div>
+</header>
+
+<nav class="toc">
+  <h2>Contents</h2>
+  <ol>
+    <li><a href="#s0">What the research changed</a></li>
+    <li><a href="#s1">The offer and the number</a></li>
+    <li><a href="#s2">Funnel map</a></li>
+    <li><a href="#s3">Page 1 — the opt-in</a></li>
+    <li><a href="#s4">The form</a></li>
+    <li><a href="#s5">Page 2 — the thank you</a></li>
+    <li><a href="#s6">The rules page</a></li>
+    <li><a href="#s7">Visual direction</a></li>
+    <li><a href="#s8">Qualification and the floor</a></li>
+    <li><a href="#s9">Tracking</a></li>
+    <li><a href="#s10">What ships in 48 hours</a></li>
+    <li><a href="#s11">Assets we need</a></li>
+    <li><a href="#s12">Questions for the client</a></li>
+  </ol>
+</nav>
+
+<!-- ========================================================== 00 -->
+<section id="s0">
+  <div class="sec-head"><span class="sec-num">00</span><h2>What the research changed</h2></div>
+
+  <p class="lede">Twenty-two agents spent three million tokens on Mo Vlogs, Base44, opt-in conversion data, competitor teardowns, contest mechanics and compliance. Five findings move the plan. The first three were not in the brief at all.</p>
+
+  <div class="findings">
+
+    <div class="finding">
+      <p class="finding-n">FINDING 01 · CHANGES THE STRATEGY</p>
+      <h3>Mo already has two live lead funnels</h3>
+      <p><strong>movlogscircle.com</strong> is live and is <em>line one of every video description</em> since 8 August. It collects name, email and phone behind an SMS one-time-code. Headline: <em>"A private club for ambitious people."</em> No price, no product, no dates — a waitlist. <strong>winwithmo.com</strong> is a second funnel: an iPhone giveaway collecting name, email and WhatsApp, already bilingual English/Arabic.</p>
+      <p>So the Build Challenge is not launching into empty space. It is a third funnel competing for the same finite traffic, and the Circle currently owns the only link slot in his descriptions.</p>
+      <p class="sofar"><b>What we do:</b> build the Build Challenge as the acquisition engine and treat the Circle as where winners and near-misses land. But the client has to decide which URL goes in the description on drop day — they cannot both be line one.</p>
+    </div>
+
+    <div class="finding">
+      <p class="finding-n">FINDING 02 · SECURITY — TELL THE CLIENT TODAY</p>
+      <h3>Their internal ops runbook is publicly readable</h3>
+      <p><code class="inl">movlogscircle.com/SECURITY-OTP.md</code> returns HTTP 200 to anyone. It names their Supabase project reference, documents two SMS-pumping attacks against them (around 4,500 sends in one hour on 14 August; around 1,500 more on 22 August), lists every rate-limit value and its default, and flags a legacy <code class="inl">lead</code> edge function that "inserts leads with NO Turnstile/caps/checks" and is still deployed.</p>
+      <p class="sofar"><b>What we do:</b> flag it to Dzigi immediately — this is their existing property, not ours. And make sure no equivalent file ships in our build.</p>
+    </div>
+
+    <div class="finding">
+      <p class="finding-n">FINDING 03 · ANSWERS YOUR ARABIC QUESTION</p>
+      <h3>The 8.92M Arabic channel is not the audience you think</h3>
+      <p>ARABIC MO VLOGS is not dubbed vlogs. It is MrBeast-style challenge content — <em>"Squid Game $50,000"</em>, <em>"Last person to leave the bed wins $10,000"</em> — 159 videos, biggest Short at 132M views. That is a children-and-teens Shorts audience with close to zero purchase intent, and a real safeguarding problem for a funnel that dials phone numbers.</p>
+      <p>But Arabic is still right, for a different reason. <strong>winwithmo.com's country dial-code list is hand-ordered</strong>, and the order is their own audience model written down: UAE, Saudi, Qatar, Kuwait, Bahrain, Oman, then the Levant and Egypt, then the West, then South Asia. Their existing code also sets <code class="inl">OTP_HOME_PREFIX=971</code> and exempts the UAE from every rate limit.</p>
+      <p class="sofar"><b>Answer for Dzigi:</b> yes to Arabic — for the Gulf commercial audience, not for the 8.92M challenge channel. And do not promote this on the challenge channel at all.</p>
+    </div>
+
+    <div class="finding">
+      <p class="finding-n">FINDING 04 · CHANGES THE POSITIONING</p>
+      <h3>His audience has voted against "teach me" twice</h3>
+      <p>Mo Crypto: 41,500 subscribers and 1.25M lifetime views across 90 videos — about 13,800 a video. His one make-money video on the main channel, a dropshipping tutorial, did 93,000 against a 300,000–800,000 baseline for neighbouring uploads. A roughly fourfold underperformance.</p>
+      <p>Worse, there is a 1.16M-view Atozy exposé documenting Mo promoting UpStake, a token called a Ponzi on bitcointalk in March 2019. And scammers have actively impersonated him to harvest personal details — he posted publicly to warn fans about it.</p>
+      <p class="sofar"><b>What we do:</b> lead with the competition and the money, never with "we'll teach you". Rule out the entire vocabulary of passive income, ROI, trading and "make $X". And treat anti-impersonation proof as conversion copy, because a dark page with a gold logo asking for name, email and phone is the exact silhouette of the scams his fans were warned about.</p>
+    </div>
+
+    <div class="finding">
+      <p class="finding-n">FINDING 05 · CHANGES THE FORECAST AND THE BUILD</p>
+      <h3>Two ceilings nobody had measured</h3>
+      <p><strong>Reach.</strong> His last four longform uploads did 280k, 374k, 330k and 445k views. A year ago the same slots did 1.7M to 3.1M. Like rates run 0.9–2.1% against a healthy 3–5%. Forecast from 300–450k a video, not from 11.9M subscribers.</p>
+      <p><strong>Delivery.</strong> SMS sender-ID registration is a multi-week regulatory process in every one of the top markets — TDRA in the UAE, CITC in Saudi with Arabic pre-approval, DLT in India, 10DLC in the US. WhatsApp Business template approval plus number warming is the same. So "we'll text you to confirm" is not a 48-hour capability.</p>
+      <p class="sofar"><b>What we do:</b> email confirmation is the day-one channel. SMS and WhatsApp go behind a feature flag that flips without a redeploy once registration clears. The thank-you page renders the email variant until then.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ========================================================== 01 -->
+<section id="s1">
+  <div class="sec-head"><span class="sec-num">01</span><h2>The offer and the number</h2></div>
+
+  <div class="chiprow">
+    <span class="chip chip-locked">Amount — my call</span>
+    <span class="chip chip-client">Terms — needs Mo</span>
+    <span class="chip chip-blocker">Ring-fencing — blocks the strong headline</span>
+  </div>
+
+  <p class="lede">You asked me to pick a number. It is <strong>$50,000</strong>, structured as an equity investment on published standard terms — not a cash prize.</p>
+
+  <h3>Why $50,000 and not $1,000,000</h3>
+  <p>The number has to clear two bars at once: big enough to make someone stop scrolling and type their real phone number, small enough that Mo will actually ring-fence it. Those bars fight each other, and most creators resolve the fight by picking a huge number they never have to pay.</p>
+  <p>A million dollars reads as MrBeast money. Mo's channel does not carry MrBeast's proof history — it carries an Atozy video with 1.16M views. On his page, a million-dollar promise is not exciting, it is the tell. Fifty thousand is a number a successful Dubai creator plausibly writes personally, which means the audience believes it, which is the only thing that matters.</p>
+  <p>It is also genuinely life-changing across the actual audience geography. For a builder in Egypt, Pakistan or India, $50,000 is real seed capital. And it is small enough to sit in a separate account with a screenshot — which unlocks the strongest sentence available to us.</p>
+
+  <h3>Why an investment and not a giveaway</h3>
+  <p>Three reasons, and they all point the same way. Dubai DET generally does not permit cash prizes in sales promotions, so equity is the safer structure. "I invest in your business" is what the brief actually said. And an investment is what a real investor does — it is more credible than a cheque, not less, because it means Mo is taking the same risk the entrant is.</p>
+  <p>The model to copy is a16z Speedrun: one standard deal, published in full, identical for everyone, no negotiation. <strong>$50,000 for 10% on a standard SAFE</strong> implies a $500,000 post-money valuation, which is a defensible pre-seed number for a six-week-old product. Publish the deal document as a PDF before entries open.</p>
+
+  <div class="callout warn">
+    <p class="callout-t">The decision that changes the headline</p>
+    <p>If the $50,000 is genuinely ring-fenced in a separate account, we can write <em>"Mo invests $50,000"</em> and <em>"the money is already set aside"</em>. If it stays discretionary, both lines become misleading claims sitting next to terms that reserve discretion, and we have to drop to <em>"Compete for Mo's investment"</em>. That is a materially weaker page. <strong>Ring-fencing is the single highest-return thing the client can do this week</strong>, and it costs them nothing but a transfer between their own accounts.</p>
+  </div>
+
+  <h3>The ladder</h3>
+  <p>A single-winner offer depresses conversion, because 99.9% of readers correctly calculate they will not win and stop reading. Bolt's $1M hackathon paid first through tenth plus regional and category prizes and pulled over 100,000 participants. Every reader needs to find a rung they believe they can reach.</p>
+
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th style="width:120px">Rung</th><th>What they get</th><th style="width:150px">Deliverable by</th></tr></thead>
+    <tbody>
+      <tr><td>1st</td><td>$50,000 invested for 10% on the published SAFE, plus a dedicated video about the app on Mo's channel</td><td>Mo + legal</td></tr>
+      <tr><td>2nd–5th</td><td>Flights and hotel to Dubai for the filmed final, app shown in the final episode, twelve months of mentoring from the panel</td><td>Production</td></tr>
+      <tr><td>Top 10</td><td>App reviewed on camera by Mo or a panel member</td><td>Production</td></tr>
+      <tr><td>Top 50</td><td>Listed in the public gallery with a live link anyone can open</td><td>Us — it's a page</td></tr>
+      <tr><td>Named</td><td>Most Useful · Best First Build · Best Solution To A Local Problem — each with a published criterion</td><td>Judging</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p>Two corrections the compliance pass forced. <strong>"Flown to Dubai" is undeliverable</strong> for a large share of this audience — visa refusal is the normal case for several top source countries — so it needs an explicit alternative for anyone who cannot travel. And <strong>we cannot grant Base44 Elite licences</strong>; that is Wix's product to give, not ours, unless it is secured in writing.</p>
+
+  <p>The named categories also need published criteria. "Most Beautiful App" has none, and the entire legal defence of this thing rests on every award being made against pre-published objective criteria — that is what makes it a skill contest rather than a lottery.</p>
+</section>
+
+<!-- ========================================================== 02 -->
+<section id="s2">
+  <div class="sec-head"><span class="sec-num">02</span><h2>Funnel map</h2></div>
+
+  <p class="lede">You had the shape right: opt-in, then a thank-you page that tells them to keep the phone close. Two changes. The page is framed as an <strong>application</strong>, not a sign-up. And the thank-you page does far more work than telling them to wait.</p>
+
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th style="width:150px">Route</th><th>The one job</th><th style="width:170px">Success metric</th></tr></thead>
+    <tbody>
+      <tr><td><code class="inl">/</code></td><td>Get three fields in twenty seconds without triggering the scam reflex</td><td>Opt-in rate</td></tr>
+      <tr><td><code class="inl">/ar</code></td><td>The same page, RTL, for the Gulf commercial audience</td><td>Opt-in rate, Gulf traffic</td></tr>
+      <tr><td><code class="inl">/thanks</code></td><td>Make the phone get answered, and qualify without costing opt-in rate</td><td>Answer rate on dial 1</td></tr>
+      <tr><td><code class="inl">/rules</code></td><td>Make the competition lawful and the promise checkable</td><td>Doesn't 404</td></tr>
+      <tr><td><code class="inl">/privacy</code></td><td>Lawful basis for calling them at all</td><td>Doesn't 404</td></tr>
+      <tr><td><code class="inl">/alt-1</code></td><td>The challenger headline, from video two onward</td><td>Opt-in rate vs control</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>Why "application" beats "opt-in"</h3>
+  <p>Mechanically identical — same three fields, same button, same friction. But it buys three things a course opt-in cannot have. A reason for the call that isn't a pitch: <em>"I'm looking at your entry."</em> A reason the phone field is honest, because an application needs a way to reach you. And a lawful structure, because a competition with a published rubric and free entry is a skill contest, while the same thing with a purchase requirement is a lottery.</p>
+  <p>The answer rate on the first dial is the metric that decides whether this account makes money. Application framing is the cheapest lever we have on it.</p>
+</section>
+
+<!-- ========================================================== 03 -->
+<section id="s3">
+  <div class="sec-head"><span class="sec-num">03</span><h2>Page 1 — the opt-in</h2></div>
+
+  <p class="lede">Everything above the button is a cost. The entire design is the vertical budget below: on a 375×812 phone inside the Instagram in-app browser, about 640px is usable, and the button has to be inside it.</p>
+
+  <div class="fold">
+    <div class="phone">
+      <div class="phone-screen">
+        <div class="band" style="height:32px"><b>Conditions strip</b><span>32</span></div>
+        <div class="band" style="height:150px"><b>Photo of Mo</b><span>150</span></div>
+        <div class="band" style="height:20px"><b>Authenticity line</b><span>20</span></div>
+        <div class="band" style="height:100px"><b>Headline · 3 lines</b><span>100</span></div>
+        <div class="band" style="height:20px"><b>Subhead</b><span>20</span></div>
+        <div class="band" style="height:10px"><span>gap</span><span>10</span></div>
+        <div class="band is-form" style="height:172px"><b>3 fields</b><span>172</span></div>
+        <div class="band is-form" style="height:34px"><b>Phone microcopy</b><span>34</span></div>
+        <div class="band" style="height:8px"><span>gap</span><span>8</span></div>
+        <div class="band is-cta" style="height:56px"><b>BUTTON</b><span>56</span></div>
+        <div class="band" style="height:24px"><b>Consent line</b><span>24</span></div>
+        <hr class="foldline">
+        <div class="band below" style="height:46px"><span>What happens after you tap</span><span>↓</span></div>
+        <div class="band below" style="height:46px"><span>Is this real?</span><span>↓</span></div>
+        <div class="band below" style="height:46px"><span>What Base44 is</span><span>↓</span></div>
+        <div class="band below" style="height:46px"><span>The honest bit</span><span>↓</span></div>
+        <div class="band below" style="height:46px"><span>What you can win</span><span>↓</span></div>
+        <div class="band below" style="height:46px"><span>How it works · rules</span><span>↓</span></div>
+        <div class="band below" style="height:46px"><span>Second form</span><span>↓</span></div>
+      </div>
+    </div>
+    <div class="fold-notes">
+      <h4>The budget</h4>
+      <p>Total to the bottom edge of the button: <strong>626px</strong>. That leaves 14px of headroom. There is none to give away.</p>
+      <p>The photo is the line everyone will push on. <strong>150px is the ceiling</strong> — every extra 20px of Mo pushes the button out of the fold. It is also the LCP element, so it ships as AVIF with a WebP fallback at 24–40KB, <code class="inl">priority</code>, cropped 375×150 on his face.</p>
+      <p>Test at 320×568 as well. A large share of South Asian Android traffic is 360px or narrower.</p>
+      <h4>What is not up there</h4>
+      <p>No video — the client ruled it out and the budget agrees. No logo lockup. No countdown timer anywhere on the page. No supercars, no watch, no mansion: his real thumbnails carry almost no text overlay, and a posed luxury portrait raises persuasion knowledge and lowers intent. Plain photo, plain page.</p>
+    </div>
+  </div>
+
+  <h3>Section 1 — conditions strip</h3>
+  <p>Fixed at the very top, 32px, gold on near-black, 11px. It is a legal requirement — significant conditions have to appear in the promotional material itself, not behind a link — and it is simultaneously the highest-value conversion line on the page. "Free" and "nothing to buy" inside the first 200 milliseconds is exactly what a scam-primed audience needs to see.</p>
+
+  <div class="deck">
+    <div class="deck-label"><span>Copy deck · conditions strip</span><span>375px / 320px</span></div>
+<pre>FREE TO ENTER · NOTHING TO BUY · 18+ · ENTRIES CLOSE {CLOSE_DATE} · <span class="hi">Full rules</span>
+
+<span class="dim">320px fallback:</span>
+FREE TO ENTER · 18+ · CLOSES {CLOSE_DATE} · <span class="hi">Rules</span></pre>
+  </div>
+
+  <h3>Section 2 — photo and the authenticity line</h3>
+  <p>This carries the most important trust job on the page. Directly under the image sits a <code class="inl">&lt;details&gt;</code> element — zero JavaScript — that expands to a screenshot of Mo's actual YouTube description showing this URL as line one. <strong>The proof must not require leaving the in-app browser.</strong> Sending someone to another tab to verify you is sending them away.</p>
+
+  <div class="deck">
+    <div class="deck-label"><span>Copy deck · authenticity</span><span>under the photo</span></div>
+<pre><span class="dim">Caption over photo, bottom-left, 11px:</span>
+Mo Vlogs · Dubai
+
+<span class="dim">Authenticity line, 20px:</span>
+This is Mo's only page for this. <span class="hi">See the proof ↓</span>
+
+<span class="dim">Expands to:</span>
+  This link is line 1 of Mo's video description and it is
+  on his YouTube About page.
+  [screenshot: his description with the URL visible]
+  <span class="hi">Open his YouTube and check →</span></pre>
+  </div>
+
+  <h3>Sections 3 and 4 — headline and subhead</h3>
+  <p>Three lines, each under 20 characters, all grade-three vocabulary. It works by self-persuasion: the reader supplies their own idea. And it leads with the most unusual verifiable claim available without promising the reader will receive it.</p>
+
+  <div class="deck">
+    <div class="deck-label"><span>Copy deck · headline</span><span>control</span></div>
+<pre><span class="hi">You have the idea.
+AI builds it.
+Mo invests $50,000.</span>
+
+Free training. Free to enter. No coding needed.
+
+<span class="dim">320px subhead: Free training. Free to enter. No code.</span>
+
+<span class="dim">─────────────────────────────────────────────────────</span>
+<span class="dim">If the money is NOT ring-fenced, line 3 becomes:</span>
+Compete for Mo's investment.</pre>
+  </div>
+
+  <p>Set the headline in a system font stack. One fewer blocking request on 4G is worth more than the typeface, and this is the block the form sits under — a late font swap moves the fields.</p>
+
+  <h3>Headline alternates, ranked</h3>
+
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th style="width:40%">Headline</th><th>Where</th><th style="width:32%">Why</th></tr></thead>
+    <tbody>
+      <tr><td>No code. No team. No experience.<br>Just your idea.</td><td><code class="inl">/alt-1</code>, video 2</td><td>Dissolves the three beginner fears in six words. Tests whether this audience buys the lottery ticket or the skill.</td></tr>
+      <tr><td>Mo is putting his own money into one app. It could be yours.</td><td>Video 3</td><td>Most click-continuous if Mo says these exact words on camera. "Could be", never "will be".</td></tr>
+      <tr><td>Everyone has an app idea.<br>This time you build it.</td><td>All paid creative</td><td>The only safe H1 for Meta/Google/TikTok — no economic outcome in the headline.</td></tr>
+      <tr><td>Type your idea.<br>Watch it become an app.</td><td>Arabic control</td><td>Most literal description of the mechanism. Translates cleanly into Arabic and Hindi.</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>Below the fold, in order</h3>
+  <p>Seven blocks, each answering the next objection a scrolling reader actually has. The order is the argument.</p>
+
+  <ol>
+    <li><strong>What happens after you tap</strong> — three lines, removes the single biggest reason to bounce at a form.</li>
+    <li><strong>Is this real?</strong> — the anti-impersonation block, inline, with the checkable proof.</li>
+    <li><strong>What Base44 is</strong> — the mechanism, and what building actually looks like. One founder, sold to Wix for $80M six months after launch, two million people building on it now.</li>
+    <li><strong>The honest bit</strong> — what this will not do for you. Costs nothing, buys the most trust per pixel on the page.</li>
+    <li><strong>Who this is for and not for</strong> — self-selection, which filters before the tap instead of after the dial.</li>
+    <li><strong>What you can win</strong> — the ladder.</li>
+    <li><strong>How the investment works</strong> — the rubric, the judges, the close date.</li>
+  </ol>
+
+  <p>Then a <strong>real second form</strong>, not a scroll-to-top button. Someone who read 1,400 words and reached the bottom has earned a field to type in, not a trip back to the header.</p>
+
+  <div class="deck">
+    <div class="deck-label"><span>Copy deck · the honest bit</span><span>below fold</span></div>
+<pre>The honest bit
+
+This will not make you rich in a week. Nobody here is
+going to tell you that.
+
+Base44 is free to try. To build something real you will
+pay about $16 a month for it. That is a Base44 cost,
+not ours.
+
+Base44's own founder says it takes hundreds of prompts
+to build something people use every day. That is not a
+reason to skip it. It is the reason not to do it alone.
+
+You will not learn to code. You will learn to describe
+what you want, check what comes back, and fix it. That
+is the actual job now.</pre>
+  </div>
+
+  <div class="deck">
+    <div class="deck-label"><span>Copy deck · how the investment works</span><span>below fold</span></div>
+<pre>How the investment works
+
+Mo is investing $50,000 of his own money into one
+business from this group, for a 10% stake, on terms
+published in full before you enter. Same terms for
+everyone. <span class="hi">Read the deal →</span>
+
+Free to enter. You do not buy anything. Buying
+anything does not help you win.
+
+Every app is scored on the same four things:
+
+  Does it work?                    30%
+  Does anyone actually use it?     30%
+  Is it a business, not a demo?    25%
+  Did you build it yourself?       15%
+
+That is the whole score sheet. There is nothing
+else in it.
+
+Who decides: {JUDGE_1}, {JUDGE_2}, {JUDGE_3} and Mo.
+
+Entries close {CLOSE_DATE}. We shortlist 50 apps and
+publish every one with a link you can open. The final
+is filmed in Dubai on {FINAL_DATE}.
+
+<span class="hi">→ Read the full rules</span></pre>
+  </div>
+
+  <div class="callout">
+    <p class="callout-t">Minimum shippable version</p>
+    <p>If the judges, the amount or the rubric are not confirmed in time, three sentences are non-negotiable: <em>"Free to enter. You do not buy anything. Buying anything does not help you win."</em> Plus the rubric and the close date. <strong>The page cannot ship without them</strong> — they are what separates a skill contest from an unlicensed lottery.</p>
+  </div>
+</section>
+
+<!-- ========================================================== 04 -->
+<section id="s4">
+  <div class="sec-head"><span class="sec-num">04</span><h2>The form</h2></div>
+
+  <p class="lede">One step, three fields, no one-time code, no captcha, no dropdown before the button. Every one of those is a thing the existing Circle page does that we are deliberately not doing.</p>
+
+  <div class="deck">
+    <div class="deck-label"><span>Copy deck · the form</span><span>the whole thing</span></div>
+<pre>[ First name ]     <span class="dim">placeholder:</span> Ahmed
+[ Email ]          <span class="dim">placeholder:</span> you@email.com
+[ 🇦🇪 +971 ][ Phone number ]
+
+<span class="hi">We send your Build Pack here. Then Mo's team calls you —
+to help you enter, and to tell you about our paid
+training. Entering stays free.</span>
+
+     [   SEND ME THE BUILD PACK →   ]
+              Free · 30 seconds
+
+By tapping the button you agree that {COMPANY} can contact
+you by phone, SMS and WhatsApp about this. Tell us to stop
+at any time and we will.   <span class="hi">Privacy · Rules</span></pre>
+  </div>
+
+  <h3>The microcopy is the highest-leverage block on the page</h3>
+  <p>Michael Aagaard's well-known test cut a form from nine fields to six and <em>lost</em> 14%; he restored all nine, rewrote the per-field explainer copy, and gained 19%. Explanation beats deletion.</p>
+  <p>Those three sentences do four jobs at once. They reframe the phone number from a toll into a delivery address. They name a real deliverable. They disclose that a paid programme exists <em>before</em> consent is given — which is the difference between a closer who has a conversation and a closer who has an argument. And they pre-frame the call so the dial is expected rather than an ambush.</p>
+
+  <div class="callout warn">
+    <p class="callout-t">The Build Pack has to be real</p>
+    <p>The button says we send it and the microcopy says we send it. If it does not exist, both are false and the whole honesty argument on the page collapses at the first delivery. It is a launch blocker with no owner in any version of this brief so far. It does not need to be elaborate — a short PDF, the four app ideas that actually work on Base44, the prompt structure, what to check before you show anyone. But it needs a name against it today.</p>
+  </div>
+
+  <h3>What is deliberately not on this form</h3>
+  <ul>
+    <li><strong>No one-time code.</strong> Their existing funnel caps at 150 SMS an hour globally, and 8 an hour per non-UAE country prefix, and it fails closed. A video drop blows through that in minutes and silently kills conversion for everyone outside the Gulf.</li>
+    <li><strong>No age field.</strong> It costs opt-in rate at the exact moment of decision. Age moves to the thank-you page, where it becomes a required blocking step and costs us nothing — the lead is already banked.</li>
+    <li><strong>No last name, no country dropdown, no "tell us about your idea".</strong> All of it moves downstream.</li>
+  </ul>
+
+  <h3>Engineering notes</h3>
+  <ul>
+    <li><strong>Fail open.</strong> Bank the lead in Neon before any qualification and return 200 even when the write fails. A lead that reached us slowly beats a visitor who bounced on an error.</li>
+    <li><strong>Consent is geo-conditional</strong>, resolved server-side from <code class="inl">/api/geo</code> at render time. The US, India and the Gulf need materially different wording.</li>
+    <li><code class="inl">crypto.randomUUID()</code> <strong>throws on this exact audience</strong> — it is unavailable in insecure contexts and on Android WebView below 92. Old Androids in South Asia and MENA are precisely our traffic, and the ID generation sits in the critical path, so this is a silent total form failure for those users. Ship a fallback and set an explicit legacy <code class="inl">browserslist</code> target.</li>
+    <li><strong><code class="inl">keepalive: true</code> on the submit POST.</strong> We redirect optimistically while the write is in flight; without it the navigation cancels the request on slow connections.</li>
+    <li>Reuse <code class="inl">phone-input.tsx</code> and <code class="inl">lead.ts</code> from Kingsplay wholesale. Both are already handling international E.164 validation and the session handoff.</li>
+  </ul>
+</section>
+
+<!-- ========================================================== 05 -->
+<section id="s5">
+  <div class="sec-head"><span class="sec-num">05</span><h2>Page 2 — the thank you</h2></div>
+
+  <p class="lede">You had this as "keep your phone close". It is worth much more than that. This is the page that decides whether the phone gets answered, and answer rate is the number the whole account lives on.</p>
+
+  <h3>In order</h3>
+  <ol>
+    <li><strong>Confirmation and the number.</strong> "We'll call the number ending in 47" — we already have <code class="inl">last2()</code> for this, so we confirm the number without reprinting it.</li>
+    <li><strong>The age gate.</strong> Required, blocking, step 1 of 2. Not an optional chip. His audience genuinely skews young and the floor cannot be dialling minors — and we cannot take equity from one either.</li>
+    <li><strong>The micro-commitment.</strong> Step 2 of 2, and the single most valuable element on the page: one open text field, <em>"What do you want to build?"</em> That sentence becomes the closer's opener — <em>"I'm looking at your entry about the app for your dad's shop"</em> — and it is the highest-signal data in the entire funnel.</li>
+    <li><strong>Four one-tap questions</strong>, ungated. Nothing blocks, everything sorts.</li>
+    <li><strong>When to call you</strong> — hand-typed, not a dropdown. People write "after 6, I'm at work" and that is worth more than a time slot.</li>
+    <li><strong>What happens next</strong> — three steps, spelled out.</li>
+    <li><strong>Start tonight</strong> — kills the dead time before the call. Link them to Base44's free tier and the Build Pack.</li>
+  </ol>
+
+  <div class="deck">
+    <div class="deck-label"><span>Copy deck · the call block</span><span>dark panel</span></div>
+<pre>Someone from Mo's team is calling you.
+
+It comes from a number you will not recognise, so
+please pick up. Usually within a few minutes. If you
+entered outside our hours, your call comes first
+thing.
+
+On the call:
+  ✓ What you want to build, and whether it fits
+  ✓ How to enter, step by step
+  ✓ What the free training covers
+  ✓ Anything you want to ask
+
+  [ Free ]  [ No obligation ]  [ About 15 minutes ]
+
+We'll call the number ending in <span class="hi">{last2}</span>.
+
+If we miss you we'll try once more, then email you so
+you can pick a better time. Nothing is lost either way.</pre>
+  </div>
+
+  <div class="callout">
+    <p class="callout-t">Speed to lead is the whole game</p>
+    <p>The classic lead-response research is unambiguous: contact rates collapse by an order of magnitude between a five-minute callback and a thirty-minute one. Every element on this page exists to buy the floor those first five minutes — the number confirmation, the expectation setting, the "it'll be an unknown number" warning. None of it works if the floor isn't actually staffed when the video drops.</p>
+  </div>
+
+  <p><strong>What is explicitly not on this page:</strong> no upsell, no price, no checkout, no countdown. They have already converted. The only job left is making the phone get answered.</p>
+</section>
+
+<!-- ========================================================== 06 -->
+<section id="s6">
+  <div class="sec-head"><span class="sec-num">06</span><h2>The rules page</h2></div>
+
+  <div class="chiprow"><span class="chip chip-locked">We produce it</span><span class="chip chip-client">Client reviews</span></div>
+
+  <p class="lede">You told Dzigi we would handle this. It is not a formality — the rules page is what converts a possible illegal lottery into a lawful skill contest, and publishing it well is a trust asset rather than a liability.</p>
+
+  <p>The legal test is simple: prize plus chance plus consideration equals lottery. We remove <em>chance</em> with a published rubric and named judges. We remove <em>consideration</em> with genuinely free entry. Both have to be real, not decorative.</p>
+
+  <h4>What the page must contain</h4>
+  <ul>
+    <li><strong>Promoter</strong> — legal entity name and Dubai address. Not "Mo Vlogs".</li>
+    <li><strong>Eligibility</strong> — 18+, able to legally own and sign for a company, territories in and territories out.</li>
+    <li><strong>Free entry, stated unconditionally</strong> — and that buying anything confers no advantage.</li>
+    <li><strong>The rubric with its weights</strong>, identical to the landing page.</li>
+    <li><strong>Judges</strong>, named, with real one-line bios.</li>
+    <li><strong>Dates</strong> — entries close, shortlist published, final filmed, winner contacted within seven days.</li>
+    <li><strong>What "investment" means</strong> — equity, a standard SAFE, subject to KYC and legal checks like any real investment. What happens if the winner cannot complete the paperwork: it goes to the runner-up.</li>
+    <li><strong>Filming consent</strong> is required to win.</li>
+    <li><strong>Entrants keep everything they build.</strong></li>
+    <li><strong>The graceful out</strong>, worded honestly — see below.</li>
+    <li><strong>Not affiliated with Base44 or Wix.</strong> We use the product name to describe what we teach; we claim no endorsement, partnership or certification.</li>
+  </ul>
+
+  <div class="deck">
+    <div class="deck-label"><span>Copy deck · the graceful out</span><span>rules page + landing page</span></div>
+<pre>What if nothing is good enough?
+
+Then the money still goes out — and Mo says so on
+camera, and says exactly why the bar was not cleared.
+The $50,000 is committed either way.
+
+What we will not do is pretend something is a business
+when it is not.</pre>
+  </div>
+
+  <p>That block is worth writing well. The alternative wording every programme reaches for — "this should be understood as an opportunity, not a promise" — is legally tidy and is exactly the sentence that gets screenshotted onto a reaction channel. Guarantee the floor and keep discretion only on the upside.</p>
+
+  <div class="callout warn">
+    <p class="callout-t">Two things I cannot resolve from here</p>
+    <p><strong>UAE promotion permit.</strong> Sales promotions in Dubai generally require a DET permit, and cash prizes are generally not permitted — part of why the equity structure is the right one. <strong>UAE advertiser permit.</strong> Creators have needed one since February 2026. Both need someone local to confirm. Neither blocks the build, but both block the drop.</p>
+  </div>
+</section>
+
+<!-- ========================================================== 07 -->
+<section id="s7">
+  <div class="sec-head"><span class="sec-num">07</span><h2>Visual direction</h2></div>
+
+  <div class="chiprow"><span class="chip chip-locked">One direction now</span><span class="chip chip-client">Decline into options after the content locks</span></div>
+
+  <p class="lede">One direction, per your call. It is the Circle's existing black and gold — because it already exists, it is already Mo's brand for this exact kind of page, and continuity costs nothing while invention costs credibility.</p>
+
+  <div class="swatches">
+    <div class="sw"><i style="background:#030303"></i><code>#030303</code><b>Ground</b></div>
+    <div class="sw"><i style="background:#d4aa50"></i><code>#d4aa50</code><b>Gold</b></div>
+    <div class="sw"><i style="background:#ecd390"></i><code>#ecd390</code><b>Gold light</b></div>
+    <div class="sw"><i style="background:#a97f2f"></i><code>#a97f2f</code><b>Gold deep</b></div>
+    <div class="sw"><i style="background:#ececec"></i><code>#ececec</code><b>Body</b></div>
+    <div class="sw"><i style="background:#9a9a9a"></i><code>#9a9a9a</code><b>Muted</b></div>
+  </div>
+
+  <p>Those are the exact values off the live Circle page, along with Inter as the single typeface and the angular gold MV monogram. Taking them means a visitor who has seen one page recognises the other.</p>
+
+  <h3>The tension, and how we resolve it</h3>
+  <p>There is a real problem with black and gold here, and it should be said out loud: <strong>a dark page with a gold logo asking for name, email and phone is the exact silhouette of the scams his fans have been warned about.</strong> His own audience has been told to watch for people impersonating him to harvest details.</p>
+  <p>The resolution is not to abandon his brand. It is to spend the gold as an <em>accent</em> rather than as the substance, and to make the page unmistakably plain: a real photograph of Mo that looks like a photograph rather than a product shot, plain-spoken copy, the inline authenticity proof, and no ornamentation anywhere. Expensive-looking is the wrong target. <strong>Checkable is the right one.</strong>
+  </p>
+  <p>There is a second tension worth naming for the client. His channel voice is loud — 78% of his titles end in "!!!", a third are all caps — and this page is quiet. Someone arriving from a "$100,000,000" thumbnail lands somewhere hushed. That contrast can be an asset, the reveal of the real Mo behind the spectacle, but only if the page acknowledges the transition. Otherwise it just reads as a different, unfamiliar brand.</p>
+
+  <h4>The two directions we can decline into later</h4>
+  <p>Not built now, noted so the client knows the options exist: a <strong>daylight editorial</strong> direction — white ground, his real photography, the money as the only colour, which maximally breaks the scam silhouette; and a <strong>channel-native</strong> direction that borrows the thumbnail register directly. I would test daylight against black-and-gold before I tested anything else on this page.</p>
+</section>
+
+<!-- ========================================================== 08 -->
+<section id="s8">
+  <div class="sec-head"><span class="sec-num">08</span><h2>Qualification and the floor</h2></div>
+
+  <p class="lede">Qualification is a sort order, not a gate. Nothing gets rejected at the door — leads get banked, scored, and dialled in priority order.</p>
+
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th style="width:80px">Layer</th><th>Where</th><th>What it captures</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>Page 1, invisible</td><td>Geo, device, traffic source, UTM, time on page, scroll depth. On 100% of leads.</td></tr>
+      <tr><td>2</td><td>Page 1, below fold</td><td>Self-selection from the "who this is for / not for" block. Filters before the tap.</td></tr>
+      <tr><td>3</td><td>Thank-you page</td><td>Blocking age gate, then four ungated one-tap chips.</td></tr>
+      <tr><td>4</td><td>Thank-you page</td><td><strong>The open text field.</strong> Highest-signal data in the funnel.</td></tr>
+      <tr><td>5</td><td>Server, pre-dial</td><td>Phone validity, duplicate check, suppression list, local-time legality.</td></tr>
+      <tr><td>6</td><td>The call</td><td>Where real qualification actually happens.</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="callout warn">
+    <p class="callout-t">The capacity problem nobody has run the numbers on</p>
+    <p>A 300–450k-view upload at a 2–5% click rate produces roughly 6,000–22,000 sessions in 48 hours. At a 12–20% opt-in rate that is <strong>1,000 to 4,000 leads</strong>, front-loaded into the first day. At six dial attempts each, that is 6,000 to 24,000 dial attempts.</p>
+    <p>Nobody has told us how many reps there are. Six reps at twelve dials an hour is about 576 dials a day. <strong>We need the headcount before launch</strong>, because if the floor can only work the top 400 leads, the other 3,600 need an email lane with a "call me now" button that promotes them into the queue — and that is a build item, not an afterthought.</p>
+  </div>
+
+  <h4>The do-not-say list</h4>
+  <p>Distribute to the floor before launch and QA-score recordings against it. No income claims of any kind. No "guaranteed". No suggestion that buying the training improves the odds of winning — that single sentence turns a lawful skill contest into an unlawful lottery, and it is the most likely thing an enthusiastic closer says unprompted.</p>
+</section>
+
+<!-- ========================================================== 09 -->
+<section id="s9">
+  <div class="sec-head"><span class="sec-num">09</span><h2>Tracking</h2></div>
+
+  <p>The existing Circle page carries <strong>no analytics of any kind</strong> — no GA, no GTM, no Meta pixel, no Clarity, nothing. There is no baseline to beat and no way to read the new funnel unless instrumentation ships with it.</p>
+
+  <ul>
+    <li><strong>Neon is the source of truth</strong>, not a pixel. First-party event log, server-side.</li>
+    <li><strong>Microsoft Clarity from hour zero.</strong> Watching thirty real session recordings in the first hour of the drop will teach us more than any test we could run that day.</li>
+    <li><strong>Error monitoring.</strong> A system designed to swallow every error and return 200 is blind by construction. Sentry goes in above the pixels.</li>
+    <li><strong>Operational alerts</strong> to the team on opt-in rate collapse, form error spikes, and dial-queue depth.</li>
+  </ul>
+
+  <h4>No A/B test on launch day</h4>
+  <p>100% on control for video one. A single drop is the best traffic this funnel will ever see and splitting it spends half of it on an arm we already suspect is worse. The first test runs on video two, when we know what normal looks like.</p>
+</section>
+
+<!-- ========================================================== 10 -->
+<section id="s10">
+  <div class="sec-head"><span class="sec-num">10</span><h2>What ships in 48 hours</h2></div>
+
+  <p class="lede">Honest version. Every judge on this scored the original plans 2–4 out of 10 on buildability, and they were right. This is what actually fits.</p>
+
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th style="width:130px">Window</th><th>Ships</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Day 1</strong><br><span class="num">h0–16</span></td><td>The revenue path. <code class="inl">/</code> above the fold, the form, <code class="inl">/api/lead</code> with fail-open write to Neon, <code class="inl">/thanks</code> with the age gate and the open field, CRM webhook, Clarity, Sentry. Ported from Kingsplay: phone input, lead handoff, geo route.</td></tr>
+      <tr><td><strong>Day 2</strong><br><span class="num">h16–40</span></td><td>Trust and compliance. Everything below the fold on page 1, <code class="inl">/rules</code>, <code class="inl">/privacy</code>, the authenticity block, geo-conditional consent, the email confirmation, <code class="inl">/alt-1</code> scaffolded but not live.</td></tr>
+      <tr><td><strong>Day 3–4</strong><br><span class="num">pre-drop</span></td><td>Arabic <code class="inl">/ar</code>, the Build Pack PDF, floor briefing and the do-not-say list, a staged soft launch to a Story before the video drop.</td></tr>
+      <tr><td><strong>Week 2+</strong></td><td>What genuinely cannot be rushed: SMS sender-ID registration, WhatsApp templates and number warming, the shortlist gallery, the rep console if we're building rather than buying one.</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="callout warn">
+    <p class="callout-t">Two things that are not 48-hour items and are currently written as if they were</p>
+    <p><strong>The CRM.</strong> "Fed by Neon" is doing enormous work in one line. It is either a real integration — and someone has to name the vendor and own the account — or it is a rep console we are building from scratch, which is its own multi-day project.</p>
+    <p><strong>SMS and WhatsApp.</strong> Multi-week regulatory registration in every top market. Day one is email. Build the flag now so the switch is a config change, not a redeploy.</p>
+  </div>
+</section>
+
+<!-- ========================================================== 11 -->
+<section id="s11">
+  <div class="sec-head"><span class="sec-num">11</span><h2>Assets we need</h2></div>
+
+  <h4>Tier 0 — nothing ships without these</h4>
+  <ul>
+    <li><strong>The domain.</strong> Not named anywhere yet. It determines DNS, SSL, the OG tags, the share string, and whether this replaces or sits beside movlogscircle.com. First decision of the day.</li>
+    <li><strong>A photo of Mo</strong> — plain, real, croppable to 375×150 on his face. Not a supercar shot.</li>
+    <li><strong>Legal entity name and Dubai address</strong> for the promoter line.</li>
+    <li><strong>The close date and the final date.</strong> Real ones. Every deadline on the page ties to an operational reason.</li>
+    <li><strong>Sales floor headcount and working hours</strong>, per timezone.</li>
+    <li><strong>CRM vendor and account access.</strong></li>
+    <li><strong>The Build Pack</strong> — owner and content.</li>
+  </ul>
+
+  <h4>Tier 1 — before the prize section can ship</h4>
+  <ul>
+    <li>Confirmation the $50,000 is ring-fenced, and a screenshot if so.</li>
+    <li>The SAFE terms, as a publishable PDF.</li>
+    <li>Three judges: names, photos, one-line bios, written permission.</li>
+    <li>Screenshot of Mo's YouTube description showing the URL as line one.</li>
+  </ul>
+
+  <h4>Tier 2 — before wave two</h4>
+  <ul>
+    <li>Arabic translation, reviewed by a native Gulf speaker rather than machine-translated.</li>
+    <li>Three or four live Base44 demo apps for the "what building looks like" block.</li>
+    <li>A short video from Mo for the thank-you page — not the hero, which stays a photo.</li>
+  </ul>
+</section>
+
+<!-- ========================================================== 12 -->
+<section id="s12">
+  <div class="sec-head"><span class="sec-num">12</span><h2>Questions for the client</h2></div>
+
+  <p class="lede">Ordered by how much they block. The first four should go to Dzigi today.</p>
+
+  <details class="q" open>
+    <summary>Is the $50,000 ring-fenced, or discretionary?</summary>
+    <div class="a"><p>Changes the headline, the prize block and the rules page. Ring-fenced unlocks "Mo invests $50,000" and "the money is already set aside" — the two strongest sentences available. Discretionary drops us to "Compete for Mo's investment", which is materially weaker. It costs them nothing but a transfer between their own accounts.</p></div>
+  </details>
+
+  <details class="q">
+    <summary>Which URL goes in the video description on drop day?</summary>
+    <div class="a"><p>movlogscircle.com currently owns line one. The Build Challenge and the Circle cannot both be the primary link. If the Circle stays, we are getting secondary placement and the forecast halves.</p></div>
+  </details>
+
+  <details class="q">
+    <summary>How many reps, what hours, what timezones?</summary>
+    <div class="a"><p>Decides whether we need the email lane and the "call me now" promotion mechanic, which is a real build item. A drop could produce 4,000 leads in a day against a floor that can work 500.</p></div>
+  </details>
+
+  <details class="q">
+    <summary>Do we exclude the UK and EEA?</summary>
+    <div class="a"><p>My recommendation is yes. It is 2–4% of leads and it removes the single largest regulatory exposure in the document — DMCC with direct CMA fines at 10% of global turnover, CAP significant-conditions rules, GDPR representative, and TPS registration with a 28-day lead time we do not have. If the client says no, TPS registration has to start today.</p></div>
+  </details>
+
+  <details class="q">
+    <summary>Do we build the Arabic version, and who reviews it?</summary>
+    <div class="a"><p>Yes, for the Gulf commercial audience — UAE, Saudi, Qatar, Kuwait. Not for the 8.92M challenge channel, which is a children's Shorts audience. Needs a native Gulf reviewer, not machine translation.</p></div>
+  </details>
+
+  <details class="q">
+    <summary>Who are the three judges, and have they agreed in writing?</summary>
+    <div class="a"><p>Named judges with real bios are one of the documented markers separating legitimate competitions from prize scams. Announcing the panel is also its own content beat and its own email send.</p></div>
+  </details>
+
+  <details class="q">
+    <summary>Has anyone confirmed the DET promotion permit and the advertiser permit?</summary>
+    <div class="a"><p>Sales promotions in Dubai generally need a DET permit, and creators have needed an advertiser permit since February 2026. Neither blocks the build; both block the drop.</p></div>
+  </details>
+
+  <details class="q">
+    <summary>Is there any prior investment Mo has made that we can show?</summary>
+    <div class="a"><p>One line and a receipt about a business he has actually put money into, ideally with the owner on camera. "This isn't my first cheque" is the cheapest credibility in the entire funnel, and given the Atozy history it is worth real effort to find.</p></div>
+  </details>
+</section>
+
+<p class="footer">Prepared from 22 research agents across Mo Vlogs' channels and properties, Base44, opt-in conversion literature, live competitor teardowns, contest-mechanic precedents and a compliance review. Figures verified as of 12 September 2026. Nothing on this page is legal advice — the rules page needs counsel before entries open.</p>
+
+</div>
