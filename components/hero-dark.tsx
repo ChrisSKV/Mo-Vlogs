@@ -91,16 +91,18 @@ export function HeroDark({ showAmount = true }: { showAmount?: boolean }) {
         </h1>
 
         <p className="mx-auto mt-5 max-w-[52ch] text-pretty text-[17px] leading-[1.55] text-ink md:text-[20px]">
-          Build anything you want without writing code, and Mo invests{" "}
           {showAmount ? (
             <>
+              Build anything you want without writing code, and Mo invests{" "}
               <span className="font-semibold text-gold">{PRIZE}</span> of his
               own money in one of them.
             </>
           ) : (
             <>
+              Learn to build a real app or website without writing a single line
+              of code. Mo invests{" "}
               <span className="font-semibold text-gold">his own money</span> in
-              one of them.
+              the best one.
             </>
           )}
         </p>

@@ -80,7 +80,7 @@ const HERO_POINTS = [
   "Your first working app can be live tonight.",
 ];
 
-function Hero({ showAmount = true }: { showAmount?: boolean }) {
+export function Hero({ showAmount = true }: { showAmount?: boolean }) {
   return (
     <section>
       <Container className="py-10 md:py-16 lg:py-20">
@@ -117,9 +117,17 @@ function Hero({ showAmount = true }: { showAmount?: boolean }) {
             </h1>
 
             <p className="mx-auto mt-5 max-w-[46ch] text-[16.5px] leading-[1.6] text-slate md:mt-6 md:text-[19px] lg:mx-0">
-              Mo is putting{" "}
-              {showAmount ? `${PRIZE} of his own money` : "his own money"} into
-              one business from this group. No coding, and nothing to pay.
+              {showAmount ? (
+                <>
+                  Mo is putting {PRIZE} of his own money into one business from
+                  this group. No coding, and nothing to pay.
+                </>
+              ) : (
+                <>
+                  Learn to build a real app or website without writing a single
+                  line of code. Mo invests his own money in the best one.
+                </>
+              )}
             </p>
 
             <div className="mt-7">

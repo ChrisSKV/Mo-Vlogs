@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Landing } from "@/components/landing";
+import { Footer, Hero, TopBar } from "@/components/landing";
 
 const DESCRIPTION =
   "You have the idea. AI builds it for you. Free to enter, and Mo invests his own money in one business from this group.";
@@ -23,14 +23,25 @@ export const metadata: Metadata = {
 };
 
 /**
- * The control, with the figure withheld.
+ * The control, cut down to a test.
  *
- * Management asked to see the offer without a number on it for now, so this
- * cut names the investment and who is writing the cheque but not how much.
- * It is the same components as `/` with one flag turned off rather than a
- * copy of them, so the approved page stays the single source of the layout
- * and the two cannot drift apart while the amount is still being decided.
+ * Management want to test the waters before settling on an amount, and asked
+ * for it to stay vague: no figure, no flights, no set terms. So this is the
+ * hero and the footer and nothing else. The prize ladder and the first place
+ * panel are exactly the parts that commit to specifics (the Dubai final, the
+ * equity stake), so rather than softening them they are left out.
+ *
+ * Same Hero component as `/` with the figure switched off, so the approved
+ * page is still the single source of the layout.
  */
 export default function NoAmountPage() {
-  return <Landing showAmount={false} />;
+  return (
+    <>
+      <TopBar />
+      <main>
+        <Hero showAmount={false} />
+      </main>
+      <Footer />
+    </>
+  );
 }
