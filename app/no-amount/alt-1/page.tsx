@@ -10,11 +10,25 @@ import { HeroDark } from "@/components/hero-dark";
 import { OptinModalProvider } from "@/components/optin-modal";
 import { OpenOptin } from "@/components/open-optin";
 
+const DESCRIPTION =
+  "You have the idea. AI builds it for you. Free to enter, and Mo invests his own money in one business from this group.";
+
 export const metadata: Metadata = {
   title: "The Build Challenge | Mo Vlogs",
-  description:
-    "You have the idea. AI builds it for you. Free to enter, and Mo invests his own money in one business from this group.",
+  description: DESCRIPTION,
   robots: { index: false, follow: false },
+  // The root layout hardcodes the figure into the share card copy, and page
+  // metadata does not inherit into openGraph or twitter: without these two the
+  // link preview on WhatsApp would still quote the amount, which is the one
+  // place it must not appear.
+  openGraph: {
+    title: "The Build Challenge | Mo Vlogs",
+    description: DESCRIPTION,
+  },
+  twitter: {
+    title: "The Build Challenge | Mo Vlogs",
+    description: DESCRIPTION,
+  },
 };
 
 /** The dark variant with the figure withheld. See /no-amount for why. */
