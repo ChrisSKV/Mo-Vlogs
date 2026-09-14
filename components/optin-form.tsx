@@ -32,10 +32,18 @@ function FieldError({ id, msg }: { id: string; msg?: string }) {
  * The only conversion point on the site. One step, three fields, no OTP, no
  * captcha, no country dropdown before the button.
  */
-export default function OptinForm({ variant = "hero" }: { variant?: "hero" | "foot" }) {
+export default function OptinForm({
+  variant = "hero",
+}: {
+  variant?: "hero" | "foot";
+}) {
   const [firstName, setFirstName] = useState("");
   const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState<PhoneValue>({ e164: "", isValid: false, country: "AE" });
+  const [phone, setPhone] = useState<PhoneValue>({
+    e164: "",
+    isValid: false,
+    country: "AE",
+  });
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
   // Per-field errors only after a submit attempt: validating mid-word scolds.
@@ -44,16 +52,21 @@ export default function OptinForm({ variant = "hero" }: { variant?: "hero" | "fo
 
   const uid = variant === "hero" ? "h" : "f";
 
-  async function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (submitting) return;
+    // Read before any await: currentTarget is gone once the handler yields.
+    // The thank-you page takes the theme of the page the visitor came from,
+    // passed in the URL so the server renders it dark with no light flash.
+    const fromDark = !!e.currentTarget.closest(".theme-dark");
 
     const fn = firstName.trim();
     const em = email.trim();
     const next: Errors = {};
     if (fn.length < 2) next.firstName = "Enter your first name.";
     if (!EMAIL_RE.test(em)) next.email = "Enter a valid email address.";
-    if (!phone.isValid) next.phone = "Enter a valid phone number for your country.";
+    if (!phone.isValid)
+      next.phone = "Enter a valid phone number for your country.";
     setErrors(next);
     if (Object.keys(next).length) return;
 
@@ -92,7 +105,7 @@ export default function OptinForm({ variant = "hero" }: { variant?: "hero" | "fo
       // sending someone to an error page costs more than a possibly-lost row.
     }
 
-    window.location.href = "/thanks";
+    window.location.href = fromDark ? "/thanks?v=dark" : "/thanks";
   }
 
   return (
@@ -101,7 +114,9 @@ export default function OptinForm({ variant = "hero" }: { variant?: "hero" | "fo
         <p className="font-display text-[19px] font-bold tracking-[-0.02em] text-ink">
           Enter the Build Challenge
         </p>
-        <p className="mt-1 text-[13.5px] text-muted">Free &middot; takes 30 seconds</p>
+        <p className="mt-1 text-[13.5px] text-muted">
+          Free &middot; takes 30 seconds
+        </p>
       </div>
 
       <div className="mt-5 space-y-2.5">
@@ -117,12 +132,16 @@ export default function OptinForm({ variant = "hero" }: { variant?: "hero" | "fo
             value={firstName}
             onChange={(e) => {
               setFirstName(e.target.value);
-              setErrors((p) => (p.firstName ? { ...p, firstName: undefined } : p));
+              setErrors((p) =>
+                p.firstName ? { ...p, firstName: undefined } : p,
+              );
             }}
             placeholder="First name"
             autoComplete="given-name"
             aria-invalid={!!errors.firstName}
-            aria-describedby={errors.firstName ? `${uid}-first-name-error` : undefined}
+            aria-describedby={
+              errors.firstName ? `${uid}-first-name-error` : undefined
+            }
             className={`${FIELD} ${errors.firstName ? BAD : OK}`}
           />
           <FieldError id={`${uid}-first-name-error`} msg={errors.firstName} />
@@ -173,7 +192,7 @@ export default function OptinForm({ variant = "hero" }: { variant?: "hero" | "fo
           discloses that a paid programme exists BEFORE consent is given, and
           pre-frames the call so the dial is expected rather than an ambush.
           Aagaard's form test: explanation beats deletion. */}
-            {/* text-pretty, not text-balance. Balance equalises the lines by
+      {/* text-pretty, not text-balance. Balance equalises the lines by
           NARROWING the block, which pulled it in off the fields and left a
           pinched middle line. Pretty keeps the lines full width and only
           guards the last one against being left as an orphan. The closing
@@ -227,11 +246,17 @@ export default function OptinForm({ variant = "hero" }: { variant?: "hero" | "fo
       <p className="mt-4 text-center text-[11.5px] leading-[1.45] text-faint">
         By tapping the button you agree that {COMPANY} can contact you by phone,
         SMS and WhatsApp about this. Tell us to stop at any time and we will.{" "}
-        <a href="/privacy" className="underline underline-offset-2 hover:text-muted">
+        <a
+          href="/privacy"
+          className="underline underline-offset-2 hover:text-muted"
+        >
           Privacy
         </a>{" "}
         &middot;{" "}
-        <a href="/rules" className="underline underline-offset-2 hover:text-muted">
+        <a
+          href="/rules"
+          className="underline underline-offset-2 hover:text-muted"
+        >
           Rules
         </a>
       </p>

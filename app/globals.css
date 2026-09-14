@@ -349,3 +349,10 @@ body:has(.theme-dark) {
   --cta-glow: 0 0 0 0 transparent;
   --color-green: #2bd673;
 }
+
+/* For content that arrives after mount and has no space reserved for it. */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.fade-in { animation: fade-in 0.45s ease-out both; }
