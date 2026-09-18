@@ -31,7 +31,7 @@ export default function NoAmountAltPage() {
       <OptinModalProvider>
         <TopBar />
         <main>
-          <HeroDark showAmount={false} />
+          <HeroDark amount={null} subtitle="learn" />
         </main>
         <Footer />
       </OptinModalProvider>

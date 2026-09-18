@@ -188,7 +188,28 @@ export function Hero({ showAmount = true }: { showAmount?: boolean }) {
  * black for a single block buys that contrast once, and the embers make it the
  * only moving thing on the page, so it takes the attention it is asking for.
  */
-export function FirstPlace({ showAmount = true }: { showAmount?: boolean }) {
+/* The figure on the prize panel is a 3D gold render, not type, so every
+   amount the panel can show needs its own file. An amount with no render here
+   falls back to the page's gold type rather than to a broken image. */
+const GOLD_ART: Record<string, { src: string; w: number; h: number }> = {
+  [PRIZE]: { src: "/assets/fifty-gold.webp", w: 1000, h: 307 },
+  "€10,000": { src: "/assets/ten-k-gold.webp", w: 1000, h: 290 },
+};
+const OWN_MONEY_ART = { src: "/assets/own-money-gold.webp", w: 1200, h: 522 };
+
+/**
+ * `amount` defaults to PRIZE, the approved cut. null shows HIS OWN MONEY and
+ * no figure. `stake` defaults to PRIZE_EQUITY; null drops the equity clause,
+ * for cuts where the terms have not been agreed.
+ */
+export function FirstPlace({
+  amount = PRIZE,
+  stake = PRIZE_EQUITY,
+}: {
+  amount?: string | null;
+  stake?: string | null;
+}) {
+  const art = amount ? GOLD_ART[amount] : OWN_MONEY_ART;
   return (
     <section className="py-10 md:py-14">
       <Container>
@@ -246,40 +267,43 @@ export function FirstPlace({ showAmount = true }: { showAmount?: boolean }) {
                       real gold to look at, and the line that earns it is the
                       one about whose money this is: a sponsor is the first
                       thing a reader assumes, and the wrong thing to assume. */}
-                  {showAmount ? (
+                  {art ? (
                     <img
-                      src="/assets/fifty-gold.webp"
-                      alt={PRIZE}
-                      width={1000}
-                      height={307}
+                      src={art.src}
+                      alt={amount ?? "His own money"}
+                      width={art.w}
+                      height={art.h}
                       loading="eager"
                       decoding="async"
                       className="w-full"
                     />
                   ) : (
-                    <img
-                      src="/assets/own-money-gold.webp"
-                      alt="His own money"
-                      width={1200}
-                      height={522}
-                      loading="eager"
-                      decoding="async"
-                      className="w-full"
-                    />
+                    <p
+                      className="hl-gold font-display text-[64px] font-extrabold leading-none tracking-[-0.04em] md:text-[88px]"
+                      data-text={amount ?? ""}
+                    >
+                      {amount}
+                    </p>
                   )}
                   <Sparkles />
                 </div>
 
                 <p className="mx-auto mt-6 max-w-[42ch] text-[17px] leading-[1.6] text-[#f5f2ea]/75 md:text-[18px] lg:mx-0">
                   Mo puts{" "}
-                  {showAmount ? `${PRIZE} of his own money` : "his own money"}{" "}
-                  into one business built by someone in this group, for a{" "}
-                  {PRIZE_EQUITY} stake on terms published before you enter.
+                  {amount ? `${amount} of his own money` : "his own money"} into
+                  one business built by someone in this group
+                  {stake ? (
+                    <>
+                      , for a {stake} stake on terms published before you enter.
+                    </>
+                  ) : (
+                    "."
+                  )}
                 </p>
 
                 {PRIZE_RING_FENCED && (
                   <p className="mt-7 inline-flex items-center gap-2 rounded-full border border-green/30 bg-green/10 px-4 py-2 text-[13.5px] font-medium text-[#f5f2ea]/80">
-                    The {PRIZE} is already set aside in a separate account.
+                    The {amount} is already set aside in a separate account.
                   </p>
                 )}
               </div>
@@ -632,7 +656,7 @@ export function Landing({ showAmount = true }: { showAmount?: boolean }) {
       <TopBar />
       <main>
         <Hero showAmount={showAmount} />
-        <FirstPlace showAmount={showAmount} />
+        <FirstPlace amount={showAmount ? PRIZE : null} />
         <Prize />
         <ClosingCTA cta={<ScrollToForm />} />
       </main>

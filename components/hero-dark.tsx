@@ -7,9 +7,16 @@ import { CLOSE_DATE, PRIZE } from "@/lib/tokens";
 /* ---------------------------------------------------------------------------
    The dark variant's hero.
 
-   Lifted out of the page so the amount free cut can reuse it rather than fork
-   it. `showAmount` is the only difference between them, and it defaults to
-   true, so the approved page renders exactly what it rendered before.
+   Lifted out of the page so every dark cut shares one hero instead of forking
+   it. Two knobs:
+
+     amount    the figure in the headline. Defaults to PRIZE, the approved
+               $50,000 cut. null drops the figure and the line promises the
+               investment without a number.
+     subtitle  "build" is the approved line. "learn" is the more descriptive
+               one management asked for: what you learn first, then the money.
+
+   Both default to the approved cut, so /alt-1 renders exactly what it did.
    ------------------------------------------------------------------------- */
 
 const HERO_POINTS = [
@@ -18,7 +25,13 @@ const HERO_POINTS = [
   "Free to enter, nothing to buy",
 ];
 
-export function HeroDark({ showAmount = true }: { showAmount?: boolean }) {
+export function HeroDark({
+  amount = PRIZE,
+  subtitle = "build",
+}: {
+  amount?: string | null;
+  subtitle?: "build" | "learn";
+}) {
   return (
     <section className="relative">
       {/* The stage is its own band, and the headline sits under it rather than
@@ -79,9 +92,9 @@ export function HeroDark({ showAmount = true }: { showAmount?: boolean }) {
           {/* The figure is the whole line in the approved cut. Without it the
               line has to carry the promise on its own, so it names who is
               investing and in whom rather than how much. */}
-          {showAmount ? (
-            <span className="hl-gold" data-text={`I invest ${PRIZE}.`}>
-              I invest {PRIZE}.
+          {amount ? (
+            <span className="hl-gold" data-text={`I invest ${amount}.`}>
+              I invest {amount}.
             </span>
           ) : (
             <span className="hl-gold" data-text="I invest in one of you.">
@@ -91,11 +104,15 @@ export function HeroDark({ showAmount = true }: { showAmount?: boolean }) {
         </h1>
 
         <p className="mx-auto mt-5 max-w-[52ch] text-pretty text-[17px] leading-[1.55] text-ink md:text-[20px]">
-          {showAmount ? (
+          {/* "learn" never repeats the figure: the headline right above it
+              already says it, and saying it twice reads as a stammer. */}
+          {subtitle === "build" ? (
             <>
               Build anything you want without writing code, and Mo invests{" "}
-              <span className="font-semibold text-gold">{PRIZE}</span> of his
-              own money in one of them.
+              <span className="font-semibold text-gold">
+                {amount ?? "his own money"}
+              </span>{" "}
+              {amount ? "of his own money " : ""}in one of them.
             </>
           ) : (
             <>
