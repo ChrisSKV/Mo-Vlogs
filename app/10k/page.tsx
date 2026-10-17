@@ -3,7 +3,7 @@ import { FirstPlace, Footer, TopBar } from "@/components/landing";
 import { HeroDark } from "@/components/hero-dark";
 import { OptinModalProvider } from "@/components/optin-modal";
 
-const AMOUNT = "€10,000";
+const AMOUNT = "$10,000";
 
 const TITLE = "The Build Challenge | Mo Vlogs";
 const DESCRIPTION = `You have the idea. AI builds it for you. Free to enter, and Mo invests ${AMOUNT} of his own money in the best business from this group.`;
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 };
 
 /**
- * The committed offer: management settled on €10,000.
+ * The committed offer: management settled on $10,000.
  *
  * The approved dark page with the figure swapped in, and nothing below the
  * prize panel. The rest of the prize ladder (the Dubai final, the camera
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
  *
  * `stake={null}` on purpose. The 10% on the approved cut was a working
  * assumption that went with $50,000, and nobody has agreed an equity figure
- * against €10,000, so the panel states the investment and not the terms.
+ * against $10,000, so the panel states the investment and not the terms.
  */
 export default function TenKPage() {
   return (

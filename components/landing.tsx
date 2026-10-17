@@ -193,6 +193,8 @@ export function Hero({ showAmount = true }: { showAmount?: boolean }) {
    falls back to the page's gold type rather than to a broken image. */
 const GOLD_ART: Record<string, { src: string; w: number; h: number }> = {
   [PRIZE]: { src: "/assets/fifty-gold.webp", w: 1000, h: 307 },
+  "$10,000": { src: "/assets/ten-k-usd-gold.webp", w: 1000, h: 319 },
+  // Kept: the offer was briefly denominated in euros and may flip back.
   "€10,000": { src: "/assets/ten-k-gold.webp", w: 1000, h: 290 },
 };
 const OWN_MONEY_ART = { src: "/assets/own-money-gold.webp", w: 1200, h: 522 };
