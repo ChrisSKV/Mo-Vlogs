@@ -24,7 +24,7 @@ const interTight = Inter_Tight({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://example.com"), // PLACEHOLDER: real domain
+  metadataBase: new URL("https://movlogs.ai"),
   title: "The Build Challenge | Mo Vlogs",
   description:
     "You have the idea. AI builds it. Free training, free to enter, and Mo invests his own money in one business from this group.",
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "The Build Challenge | Mo Vlogs",
     description:
-      "You have the idea. AI builds it for you. Free to enter, and Mo invests $50,000 of his own money in one business from this group.",
+      "You have the idea. AI builds it for you. Free to enter, and Mo invests $10,000 of his own money in the best business from this group.",
     type: "website",
     siteName: "The Build Challenge",
     // TODO before launch: restore the share card. This link lives in a YouTube
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "The Build Challenge | Mo Vlogs",
     description:
-      "You have the idea. AI builds it for you. Free to enter, and Mo invests $50,000 of his own money in one business from this group.",
+      "You have the idea. AI builds it for you. Free to enter, and Mo invests $10,000 of his own money in the best business from this group.",
   },
 };
 
