@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Clause, LegalPage, Todo } from "@/components/legal-page";
 import {
   CLOSE_DATE,
+  DATES_CONFIRMED,
   EXCLUDED_TERRITORIES,
   FINAL_DATE,
   JUDGES,
@@ -95,7 +96,8 @@ export default function RulesPage() {
       <Clause n="4" title="How to enter">
         <p>
           Put your name, email and phone number on the entry form. Build an app
-          on Base44. Submit the live link before {CLOSE_DATE}{" "}
+          on Base44. Submit the live link before the closing date
+          {DATES_CONFIRMED ? <>, {CLOSE_DATE}</> : null}{" "}
           <Todo>closing date and time, with timezone, required</Todo>.
         </p>
         <p>
@@ -132,10 +134,15 @@ export default function RulesPage() {
 
       <Clause n="6" title="Dates">
         <p>
-          Entries close {CLOSE_DATE}. The shortlist of 50 is published{" "}
-          {SHORTLIST_DATE}, each with a live link. The final is filmed in Dubai
-          on {FINAL_DATE}. The winner is announced at the final and contacted by
-          phone and email within 7 days.{" "}
+          {DATES_CONFIRMED && (
+            <>
+              Entries close {CLOSE_DATE}. The shortlist of 50 is published{" "}
+              {SHORTLIST_DATE}, each with a live link. The final is filmed in
+              Dubai on {FINAL_DATE}.{" "}
+            </>
+          )}
+          The winner is announced at the final and contacted by phone and email
+          within 7 days.{" "}
           <Todo>all three dates required, and every one must be operationally real</Todo>
         </p>
       </Clause>
@@ -143,10 +150,16 @@ export default function RulesPage() {
       <Clause n="7" title="What the winner gets">
         <p>
           First place receives {PRIZE} invested into their business by Mo Vlogs
-          personally, in exchange for a {PRIZE_EQUITY} stake, on the standard
-          terms published at <Todo>{"{LINK TO SAFE PDF}"}</Todo>. The terms are
-          the same for every entrant and are published in full before entries
-          open. They will not change for this season.
+          personally, in exchange for{" "}
+          {PRIZE_EQUITY ? (
+            <>a {PRIZE_EQUITY} stake</>
+          ) : (
+            <Todo>equity stake not agreed</Todo>
+          )}
+          , on the standard terms published at{" "}
+          <Todo>{"{LINK TO SAFE PDF}"}</Todo>. The terms are the same for every
+          entrant and are published in full before entries open. They will not
+          change for this season.
         </p>
         <p className="font-medium text-ink">
           This is an investment, not a gift. You are giving up a stake in your

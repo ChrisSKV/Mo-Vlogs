@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { CLOSE_AT } from "@/lib/tokens";
+import { CLOSE_AT, DATES_CONFIRMED } from "@/lib/tokens";
 
 /**
  * Counts down to one fixed moment, CLOSE_AT.
@@ -42,6 +42,8 @@ export function Countdown({
 }) {
   const [left, setLeft] = useState<number | null>(null);
 
+  // Hooks first: this returns null below when the schedule is not agreed, and
+  // an early return above the effect would break the rules of hooks.
   useEffect(() => {
     const target = new Date(CLOSE_AT).getTime();
     const tick = () => setLeft(target - Date.now());
@@ -49,6 +51,11 @@ export function Countdown({
     const id = setInterval(tick, 1000);
     return () => clearInterval(id);
   }, []);
+
+  // No agreed close date means no deadline to show. Rendering the component
+  // anyway would read the stale placeholder in CLOSE_AT and tell every
+  // visitor that entries are closed.
+  if (!DATES_CONFIRMED) return null;
 
   const closed = left !== null && left <= 0;
   const { d, h, m, s } = parts(left ?? 0);

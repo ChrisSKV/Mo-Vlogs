@@ -6,18 +6,32 @@
  * finished when it is not. See docs/build-challenge-spec.html §11-12.
  */
 
-export const PRIZE = "$50,000";
-export const PRIZE_EQUITY = "10%";
+export const PRIZE = "$10,000";
+
+/** No equity figure has ever been agreed against $10,000. The 10% was a
+ *  working assumption that went with the old $50,000 cut, so asserting it in
+ *  the rules would publish a term nobody signed off. null means the pages
+ *  state the investment and leave the terms open until counsel has them. */
+export const PRIZE_EQUITY: string | null = null;
 
 /** Ring-fenced money unlocks the strong headline and the "already set aside"
  *  line. Until the client confirms, the page must not assert either.
  *  See spec §01 — this is the highest-return decision they can make. */
 export const PRIZE_RING_FENCED = false;
 
-/** PLACEHOLDER DATES, real-looking so the page and the countdown can be shown
- *  to the client. Swap all three for the real schedule before launch, and keep
+/** The schedule is not agreed yet.
+ *
+ *  While this is false the countdown and every "entries close" line are
+ *  hidden. That matters more than it sounds: the placeholder below has already
+ *  passed, so with the countdown live the page greeted visitors with "Entries
+ *  for Season 1 are closed" on a funnel that is open for business.
+ *
+ *  Flip this to true in the same edit that puts the real dates in, and keep
  *  CLOSE_AT in sync with CLOSE_DATE: the countdown reads CLOSE_AT and the copy
  *  reads CLOSE_DATE, and nothing checks that they agree. */
+export const DATES_CONFIRMED = false;
+
+/** PLACEHOLDER DATES. Nothing renders them while DATES_CONFIRMED is false. */
 export const CLOSE_DATE = "5 October";
 export const CLOSE_AT = "2026-10-05T20:00:00+04:00"; // 8pm Dubai
 /** When entries opened. Only used to draw how much of the window has run. */

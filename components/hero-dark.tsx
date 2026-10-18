@@ -2,7 +2,7 @@ import { Container } from "@/components/landing";
 import { Countdown } from "@/components/countdown";
 import { OpenOptin } from "@/components/open-optin";
 import { HostLockup } from "@/components/host-tag";
-import { CLOSE_DATE, PRIZE } from "@/lib/tokens";
+import { CLOSE_DATE, DATES_CONFIRMED, PRIZE } from "@/lib/tokens";
 
 /* ---------------------------------------------------------------------------
    The dark variant's hero.
@@ -128,12 +128,14 @@ export function HeroDark({
           <OpenOptin />
         </div>
 
-        <div className="mt-7 flex flex-col items-center">
-          <p className="mb-2.5 text-[12px] font-semibold uppercase tracking-[0.12em] text-muted">
-            Entries close {CLOSE_DATE}
-          </p>
-          <Countdown />
-        </div>
+        {DATES_CONFIRMED && (
+          <div className="mt-7 flex flex-col items-center">
+            <p className="mb-2.5 text-[12px] font-semibold uppercase tracking-[0.12em] text-muted">
+              Entries close {CLOSE_DATE}
+            </p>
+            <Countdown />
+          </div>
+        )}
 
         <ul className="mx-auto mt-8 flex max-w-[52rem] flex-wrap items-center justify-center gap-x-7 gap-y-3">
           {HERO_POINTS.map((p) => (

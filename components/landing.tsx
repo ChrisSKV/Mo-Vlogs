@@ -6,6 +6,7 @@ import { SecureNote } from "@/components/secure-note";
 import { Sparkles } from "@/components/sparkles";
 import {
   CLOSE_DATE,
+  DATES_CONFIRMED,
   FINAL_DATE,
   PRIZE,
   PRIZE_EQUITY,
@@ -62,9 +63,18 @@ export function TopBar() {
     >
       <Container className="flex h-[46px] items-center justify-center gap-3 md:h-[50px] md:gap-5">
         <p className="truncate text-[12.5px] leading-none md:text-[13.5px]">
-          <span className="hidden sm:inline">Season 1 entries close </span>
-          <span className="sm:hidden">Closes </span>
-          <span className="font-semibold text-gold-top">{CLOSE_DATE}</span>
+          {DATES_CONFIRMED ? (
+            <>
+              <span className="hidden sm:inline">Season 1 entries close </span>
+              <span className="sm:hidden">Closes </span>
+              <span className="font-semibold text-gold-top">{CLOSE_DATE}</span>
+            </>
+          ) : (
+            <>
+              <span className="hidden sm:inline">Season 1 entries are </span>
+              <span className="font-semibold text-gold-top">open now</span>
+            </>
+          )}
         </p>
         <Countdown variant="bar" />
       </Container>
@@ -130,12 +140,14 @@ export function Hero({ showAmount = true }: { showAmount?: boolean }) {
               )}
             </p>
 
-            <div className="mt-7">
-              <p className="mb-2.5 text-[12px] font-semibold uppercase tracking-[0.12em] text-muted">
-                Entries close {CLOSE_DATE}
-              </p>
-              <Countdown className="flex justify-center lg:justify-start" />
-            </div>
+            {DATES_CONFIRMED && (
+              <div className="mt-7">
+                <p className="mb-2.5 text-[12px] font-semibold uppercase tracking-[0.12em] text-muted">
+                  Entries close {CLOSE_DATE}
+                </p>
+                <Countdown className="flex justify-center lg:justify-start" />
+              </div>
+            )}
           </div>
 
           {/* ------------------------------------------------------- form */}
@@ -192,7 +204,8 @@ export function Hero({ showAmount = true }: { showAmount?: boolean }) {
    amount the panel can show needs its own file. An amount with no render here
    falls back to the page's gold type rather than to a broken image. */
 const GOLD_ART: Record<string, { src: string; w: number; h: number }> = {
-  [PRIZE]: { src: "/assets/fifty-gold.webp", w: 1000, h: 307 },
+  // Kept: the $50,000 render, from before the offer was cut to $10,000.
+  "$50,000": { src: "/assets/fifty-gold.webp", w: 1000, h: 307 },
   "$10,000": { src: "/assets/ten-k-usd-gold.webp", w: 1000, h: 319 },
   // Kept: the offer was briefly denominated in euros and may flip back.
   "€10,000": { src: "/assets/ten-k-gold.webp", w: 1000, h: 290 },
@@ -437,9 +450,13 @@ export function Prize() {
             help you win.
           </p>
           <p className="text-[13.5px] leading-relaxed text-muted">
-            Entries close {CLOSE_DATE} and the final is filmed in Dubai on{" "}
-            {FINAL_DATE}. Winners must be 18 or over and able to set up a
-            company.{" "}
+            {DATES_CONFIRMED && (
+              <>
+                Entries close {CLOSE_DATE} and the final is filmed in Dubai on{" "}
+                {FINAL_DATE}.{" "}
+              </>
+            )}
+            Winners must be 18 or over and able to set up a company.{" "}
             <a
               href="/rules"
               className="font-medium text-gold-deep underline underline-offset-4 hover:text-ink"
@@ -539,16 +556,20 @@ export function ClosingCTA({ cta }: { cta: React.ReactNode }) {
             <Embers className="pointer-events-none absolute inset-0 z-[-5] h-full w-full" />
 
             <div className="relative z-10 transform-gpu px-6 py-12 text-center md:px-12 md:py-16">
-              <p className="text-[11.5px] font-semibold uppercase tracking-[0.14em] text-[#f5f2ea]/55">
-                Entries close {CLOSE_DATE}
-              </p>
+              {DATES_CONFIRMED && (
+                <p className="text-[11.5px] font-semibold uppercase tracking-[0.14em] text-[#f5f2ea]/55">
+                  Entries close {CLOSE_DATE}
+                </p>
+              )}
               <h2 className="font-display mx-auto mt-3 max-w-[18ch] text-balance text-[28px] font-bold leading-[1.12] tracking-[-0.03em] text-[#f5f2ea] md:text-[36px]">
                 One idea is all it takes.
               </h2>
 
-              <div className="mt-7 flex justify-center">
-                <Countdown variant="light" />
-              </div>
+              {DATES_CONFIRMED && (
+                <div className="mt-7 flex justify-center">
+                  <Countdown variant="light" />
+                </div>
+              )}
 
               <div className="mt-8 flex justify-center">{cta}</div>
 
