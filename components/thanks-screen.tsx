@@ -63,18 +63,21 @@ export function ThanksScreen({ dark = false }: { dark?: boolean }) {
   const [idea, setIdea] = useState("");
   const [ideaSaved, setIdeaSaved] = useState(false);
 
-  /** Fire and forget. Never surfaces an error: the lead already exists. */
+  /** Fire and forget. Never surfaces an error: the lead already exists.
+   *  The email goes with it because the answers are written onto the person's
+   *  lead in the CRM, and the id identifies this submission rather than the
+   *  person, so it is not something the CRM can be searched by. */
   const patch = useCallback(
     (body: Record<string, string | boolean>) => {
-      if (!id) return;
+      if (!id || !email) return;
       fetch("/api/lead", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         keepalive: true,
-        body: JSON.stringify({ id, ...body }),
+        body: JSON.stringify({ id, email, ...body }),
       }).catch(() => {});
     },
-    [id],
+    [id, email],
   );
 
   return (
