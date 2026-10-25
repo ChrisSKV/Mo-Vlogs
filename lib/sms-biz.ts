@@ -36,7 +36,10 @@ export const BIZ = {
   website: "movlogs.ai",
 } as const;
 
-/** True once every placeholder has been replaced. Guards the page. */
+/** True once every placeholder has been replaced. Guards the page.
+ *  Checks the VALUES, not the serialised object: JSON.stringify always starts
+ *  with a brace, so stringifying it reported every filled-in identity as
+ *  incomplete and printed the warning on a page that was ready. */
 export function bizComplete(): boolean {
-  return !JSON.stringify(BIZ).includes("{");
+  return !Object.values(BIZ).some((v) => typeof v === "string" && v.includes("{"));
 }
