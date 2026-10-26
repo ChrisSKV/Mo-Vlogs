@@ -41,6 +41,11 @@ function crmLink(r: DeliveryResult): { label: string; url: string } | null {
       url: `https://app.gohighlevel.com/v2/location/${process.env.GHL_LOCATION_ID}/contacts/detail/${r.id}`,
     };
   }
+  // Close needs no org in the path: the lead id resolves on its own, and the
+  // app sends whoever opens it to the right organisation.
+  if (r.destination === "close") {
+    return { label: "Open in Close", url: `https://app.close.com/lead/${r.id}/` };
+  }
   return null;
 }
 
