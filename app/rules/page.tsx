@@ -38,7 +38,7 @@ export const metadata: Metadata = {
 
 export default function RulesPage() {
   return (
-    <LegalPage title="Competition rules" updated={<Todo>{"{DATE}"}</Todo>}>
+    <LegalPage title="Competition rules" updated="26 October 2026">
       <p className="rounded-2xl border border-line bg-surface p-5 text-[15px] leading-[1.65]">
         Plain English first: <span className="font-medium text-ink">it is free to enter</span>,
         you never have to buy anything, buying something does not help you win,
