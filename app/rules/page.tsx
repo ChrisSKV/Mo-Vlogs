@@ -1,18 +1,11 @@
 import type { Metadata } from "next";
-import { Clause, LegalPage, Todo } from "@/components/legal-page";
+import { Clause, LegalPage } from "@/components/legal-page";
 import {
-  CLOSE_DATE,
-  DATES_CONFIRMED,
   EXCLUDED_TERRITORIES,
-  FINAL_DATE,
-  JUDGES,
   LEGAL_ADDRESS,
   LEGAL_ENTITY,
-  PRIZE,
-  PRIZE_EQUITY,
   PRIZE_RING_FENCED,
   RUBRIC,
-  SHORTLIST_DATE,
   SUPPORT_EMAIL,
 } from "@/lib/tokens";
 
@@ -52,10 +45,9 @@ export default function RulesPage() {
 
       <Clause n="1" title="Who is running this">
         <p>
-          The promoter is {LEGAL_ENTITY}, {LEGAL_ADDRESS}{" "}
-          <Todo>legal entity name and registered address required</Todo>. The
-          promoter is responsible for the competition. Mo Vlogs takes part as a
-          judge and as the investor.
+          The promoter is {LEGAL_ENTITY}, {LEGAL_ADDRESS}. The promoter is
+          responsible for the competition. Mo Vlogs takes part as the judge and
+          as the investor.
         </p>
       </Clause>
 
@@ -96,9 +88,8 @@ export default function RulesPage() {
       <Clause n="4" title="How to enter">
         <p>
           Put your name, email and phone number on the entry form. Build an app
-          on Base44. Submit the live link before the closing date
-          {DATES_CONFIRMED ? <>, {CLOSE_DATE}</> : null}{" "}
-          <Todo>closing date and time, with timezone, required</Todo>.
+          on Base44. Submit the live link before entries close. The closing
+          moment is published on the entry page.
         </p>
         <p>
           Entries received after that time are not judged. We are not
@@ -126,40 +117,24 @@ export default function RulesPage() {
           Problem on the problem it solves and who it solves it for.
         </p>
         <p>
-          The judges are {JUDGES.join(", ")} and Mo Vlogs{" "}
-          <Todo>judges must be named, with bios, and must have agreed in writing</Todo>. Their
-          decision is final and no correspondence will be entered into.
+          Mo Vlogs is the judge. His decision is final and no correspondence
+          will be entered into.
         </p>
       </Clause>
 
-      <Clause n="6" title="Dates">
+      <Clause n="6" title="Results">
         <p>
-          {DATES_CONFIRMED && (
-            <>
-              Entries close {CLOSE_DATE}. The shortlist of 50 is published{" "}
-              {SHORTLIST_DATE}, each with a live link. The final is filmed in
-              Dubai on {FINAL_DATE}.{" "}
-            </>
-          )}
-          The winner is announced at the final and contacted by phone and email
-          within 7 days.{" "}
-          <Todo>all three dates required, and every one must be operationally real</Todo>
+          The winner is announced at the final and contacted by phone and
+          email. Entrants are told what is happening and when through the
+          entry page and by email.
         </p>
       </Clause>
 
       <Clause n="7" title="What the winner gets">
         <p>
-          First place receives {PRIZE} invested into their business by Mo Vlogs
-          personally, in exchange for{" "}
-          {PRIZE_EQUITY ? (
-            <>a {PRIZE_EQUITY} stake</>
-          ) : (
-            <Todo>equity stake not agreed</Todo>
-          )}
-          , on the standard terms published at{" "}
-          <Todo>{"{LINK TO SAFE PDF}"}</Todo>. The terms are the same for every
-          entrant and are published in full before entries open. They will not
-          change for this season.
+          First place receives an investment into their business from Mo Vlogs
+          personally, in exchange for equity in that business. The amount and
+          the stake are agreed with the winner.
         </p>
         <p className="font-medium text-ink">
           This is an investment, not a gift. You are giving up a stake in your
@@ -167,19 +142,12 @@ export default function RulesPage() {
         </p>
         {PRIZE_RING_FENCED && (
           <p>
-            The {PRIZE} is held in a separate account and does not depend on you
-            buying anything from the promoter, ever.
+            The investment is held in a separate account and does not depend on
+            you buying anything from the promoter, ever.
           </p>
         )}
         <p>
-          Second to fifth place receive flights and hotel for the filmed final
-          in Dubai. If a winner cannot travel or cannot obtain a visa, they join
-          the final by video and receive an alternative agreed with them of
-          equivalent value. Top 10 receive an on-camera review of their app by
-          Mo or a panel member. Top 50 are listed in the public gallery.
-        </p>
-        <p>
-          Prizes are not transferable and there is no cash alternative to the
+          The prize is not transferable and there is no cash alternative to the
           investment. Any tax arising on a prize is the winner&rsquo;s
           responsibility, so check your local rules.
         </p>
@@ -190,7 +158,7 @@ export default function RulesPage() {
           To receive the investment the winner must: be 18 or over; incorporate
           or already own a company the promoter can lawfully invest in; pass
           standard identity and anti-money-laundering checks, as with any real
-          investment; and sign the published agreement.
+          investment; and sign the investment agreement.
         </p>
         <p>
           If the winner cannot meet these conditions within 30 days, or declines
@@ -199,13 +167,14 @@ export default function RulesPage() {
       </Clause>
 
       <Clause n="9" title="If no entry is good enough">
+        <p className="font-medium text-ink">
+          Whether to invest, and how much, is entirely at Mo&rsquo;s
+          discretion. If no entry meets the bar, no investment is made.
+        </p>
         <p>
-          The investment is still made, and Mo will say on camera why the bar
-          was not cleared. The promoter will not withhold the prize silently or
-          cancel the season without a public explanation.{" "}
-          <Todo>
-            confirm with Mo: unconditional award, or roll over and double for next season
-          </Todo>
+          Nothing in these rules obliges Mo or the promoter to invest in any
+          entry. If that happens we will say so publicly rather than letting
+          the season end in silence.
         </p>
       </Clause>
 
@@ -224,9 +193,9 @@ export default function RulesPage() {
           intellectual property to the promoter, to the judges, or to Mo Vlogs.
         </p>
         <p>
-          The only exception is first place, where the published investment
-          agreement gives Mo the stated equity stake in the company. It does not
-          cover the app itself.
+          The only exception is first place, where the investment agreement
+          gives Mo the agreed equity stake in the company. It does not cover
+          the app itself.
         </p>
       </Clause>
 
@@ -264,8 +233,7 @@ export default function RulesPage() {
         </p>
         <p>
           Nothing here excludes liability for death, personal injury or fraud.
-          These rules are governed by the laws of{" "}
-          <Todo>{"{JURISDICTION}"}</Todo>.
+          These rules are governed by the laws of the United Arab Emirates.
         </p>
         <p className="text-[13px] text-muted">
           This page is a drafting framework prepared by the build team and must
