@@ -55,6 +55,12 @@ export async function POST(req: Request) {
   const email = str(body.email).slice(0, 200);
   const rawPhone = str(body.phone).slice(0, 32);
   const source = str(body.source).slice(0, 300) || "direct";
+  /* The two SMS boxes on the form. Anything that is not an explicit true is a
+     no: the filing says each kind of message goes only to numbers that ticked
+     the box for it, and a lead recorded as consenting when it did not is the
+     thing that gets a sending number blocked. */
+  const smsConsent = body.smsConsent === true;
+  const smsMarketingConsent = body.smsMarketingConsent === true;
 
   /* 422 is the only status the visitor ever sees, because it is the only one
      their own input can fix. */
@@ -89,6 +95,8 @@ export async function POST(req: Request) {
     phone: parsed.number,
     countryCode: parsed.country,
     source,
+    smsConsent,
+    smsMarketingConsent,
     attribution: { funnelLeadId: id },
   });
 

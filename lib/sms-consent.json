@@ -1,6 +1,8 @@
 {
-  "version": "2026-10-25",
+  "version": "2026-11-13",
   "service": "Service texts (optional). I agree to receive recurring text messages from Mo Vlogs, a brand of VIBES FAMILY FZCO, at the mobile number I entered in the Phone number field above, about my entry to the Build Challenge, updates on my entry, and reminders.",
   "promo": "Promotional texts (optional). I agree to receive recurring marketing and promotional text messages from Mo Vlogs, a brand of VIBES FAMILY FZCO, at the mobile number I entered in the Phone number field above.",
-  "disclosure": "Both boxes are optional and neither is required to enter. Messages may be sent using automated technology. Consent is not a condition of entry or of any purchase. Message frequency varies. Message and data rates may apply. Reply STOP to cancel, HELP for help."
+  "disclosure": "Both boxes are optional and neither is required to enter. Messages may be sent using automated technology. Consent is not a condition of entry or of any purchase. Message frequency varies. Message and data rates may apply. Reply STOP to cancel, HELP for help.",
+  "formService": "You agree to receive automated follow-up and reminder SMS messages with varying frequency from Mo Vlogs. Txt and data rates may apply. Reply STOP to end. Text HELP for help.",
+  "formPromo": "You agree to receive promotional SMS messages with varying frequency from Mo Vlogs. Txt and data rates may apply. Reply STOP to end. Text HELP for help."
 }

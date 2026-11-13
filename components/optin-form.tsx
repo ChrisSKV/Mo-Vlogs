@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import PhoneInput, { type PhoneValue } from "@/components/phone-input";
 import { newId, stashLead, trafficSource } from "@/components/lead";
 import { COMPANY } from "@/lib/tokens";
+import SMS from "@/lib/sms-consent.json";
 import { SecureNote } from "@/components/secure-note";
 import { EntryCount } from "@/components/entry-count";
 
@@ -18,6 +19,53 @@ const BAD = "border-red";
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
 type Errors = { firstName?: string; email?: string; phone?: string };
+
+/** One consent box: unticked, optional, with the links the carrier wants. */
+function SmsBox({
+  id,
+  checked,
+  onChange,
+  text,
+}: {
+  id: string;
+  checked: boolean;
+  onChange: (v: boolean) => void;
+  text: string;
+}) {
+  return (
+    <label
+      htmlFor={id}
+      className="flex cursor-pointer items-start gap-2.5 px-1 text-[11.5px] leading-[1.45] text-muted"
+    >
+      <input
+        id={id}
+        type="checkbox"
+        checked={checked}
+        onChange={(e) => onChange(e.target.checked)}
+        className="mt-[2px] h-[15px] w-[15px] shrink-0 accent-[var(--color-gold-deep,#9a6b1f)]"
+      />
+      <span>
+        {text} Click for{" "}
+        <a
+          href="/legal/sms-terms"
+          className="underline underline-offset-2 hover:text-ink"
+          onClick={(e) => e.stopPropagation()}
+        >
+          Terms of Service
+        </a>
+        ,{" "}
+        <a
+          href="/privacy"
+          className="underline underline-offset-2 hover:text-ink"
+          onClick={(e) => e.stopPropagation()}
+        >
+          Privacy Policy
+        </a>
+        .
+      </span>
+    </label>
+  );
+}
 
 function FieldError({ id, msg }: { id: string; msg?: string }) {
   if (!msg) return null;
@@ -44,6 +92,11 @@ export default function OptinForm({
     isValid: false,
     country: "AE",
   });
+  /* The two SMS boxes. Unticked, never required, and separate on purpose:
+     the carrier rejected the first filing for consent that was bundled into
+     the button, and TCR wants one agreement per kind of message. */
+  const [smsService, setSmsService] = useState(false);
+  const [smsPromo, setSmsPromo] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
   // Per-field errors only after a submit attempt: validating mid-word scolds.
@@ -93,6 +146,8 @@ export default function OptinForm({
           email: em,
           phone: phone.e164,
           source: trafficSource(),
+          smsConsent: smsService,
+          smsMarketingConsent: smsPromo,
         }),
       });
       if (res.status === 422) {
@@ -185,6 +240,28 @@ export default function OptinForm({
           />
           <FieldError id={`${uid}-phone-error`} msg={errors.phone} />
         </div>
+
+        {/* Consent sits NEXT TO THE PHONE FIELD, which is the thing the
+            carrier checks. The first A2P filing was rejected because the only
+            agreement on this page was "by tapping the button", bundled with
+            the entry itself. These are unticked, neither is required, and the
+            wording is the shape TCR asks for. The same sentences are stored
+            with the lead, from the same file, so what somebody agreed to and
+            what we recorded cannot drift apart. */}
+        <div className="space-y-2 pt-0.5">
+          <SmsBox
+            id={`${uid}-sms-service`}
+            checked={smsService}
+            onChange={setSmsService}
+            text={SMS.formService}
+          />
+          <SmsBox
+            id={`${uid}-sms-promo`}
+            checked={smsPromo}
+            onChange={setSmsPromo}
+            text={SMS.formPromo}
+          />
+        </div>
       </div>
 
       {/* The highest-leverage copy block on the form. It reframes the phone
@@ -244,8 +321,9 @@ export default function OptinForm({
           baseline; the US, India and the Gulf each need a stricter variant
           resolved server-side from /api/geo before paid traffic runs. */}
       <p className="mt-4 text-center text-[11.5px] leading-[1.45] text-faint">
-        By tapping the button you agree that {COMPANY} can contact you by phone,
-        SMS and WhatsApp about this. Tell us to stop at any time and we will.{" "}
+        By tapping the button you agree that {COMPANY} can call you about your
+        entry. Text messages are the two optional boxes above and nothing else:
+        neither is required to enter. Tell us to stop at any time and we will.{" "}
         <a
           href="/privacy"
           className="underline underline-offset-2 hover:text-muted"
