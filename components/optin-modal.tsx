@@ -25,12 +25,20 @@ export function OptinModalProvider({ children }: { children: React.ReactNode }) 
   return (
     <Ctx.Provider value={{ open }}>
       {children}
-      {isOpen && <Modal onClose={() => setIsOpen(false)} />}
+      {/* Always rendered, hidden until opened, rather than mounted on the
+          click. The carrier reviewer reads the HTML the server sends, and a
+          form that only exists after a tap is consent that does not exist as
+          far as they are concerned: that is one of the named reasons an A2P
+          filing gets rejected. Mounted and hidden, the phone field, both
+          consent boxes and their wording are in the served page, and the
+          [hidden] attribute keeps it out of the layout, out of the tab order
+          and away from autofill until somebody actually opens it. */}
+      <Modal open={isOpen} onClose={() => setIsOpen(false)} />
     </Ctx.Provider>
   );
 }
 
-function Modal({ onClose }: { onClose: () => void }) {
+function Modal({ open, onClose }: { open: boolean; onClose: () => void }) {
   const panelRef = useRef<HTMLDivElement>(null);
 
   // Focus moves INTO the dialog on open: with aria-modal set and focus left
@@ -38,12 +46,14 @@ function Modal({ onClose }: { onClose: () => void }) {
   // never announced. The panel takes focus rather than the first field, so the
   // mobile keyboard does not spring up unasked. Focus returns on close.
   useEffect(() => {
+    if (!open) return;
     const opener = document.activeElement as HTMLElement | null;
     panelRef.current?.focus();
     return () => opener?.focus();
-  }, []);
+  }, [open]);
 
   useEffect(() => {
+    if (!open) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         onClose();
@@ -92,13 +102,14 @@ function Modal({ onClose }: { onClose: () => void }) {
       window.scrollTo(0, scrollY);
       html.style.scrollBehavior = prev;
     };
-  }, [onClose]);
+  }, [open, onClose]);
 
   return (
     // No items-center: a panel taller than the viewport (landscape phone, open
     // keyboard, 200% zoom) has to scroll from the top. my-auto centres it
     // whenever there is room.
     <div
+      hidden={!open}
       className="fixed inset-0 z-[100] flex justify-center overflow-y-auto overscroll-contain p-4"
       role="dialog"
       aria-modal="true"
