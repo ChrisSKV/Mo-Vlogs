@@ -46,9 +46,9 @@ export const FINAL_DATE = "14 November";
 export const COMPANY = process.env.NEXT_PUBLIC_COMPANY_NAME || "The Build Challenge";
 /** From the Federal Tax Authority certificate, and it must keep matching
  *  lib/sms-biz.ts and the carrier filing. */
-export const LEGAL_ENTITY = process.env.NEXT_PUBLIC_LEGAL_ENTITY || "VIBES FAMILY FZCO";
+export const LEGAL_ENTITY = process.env.NEXT_PUBLIC_LEGAL_ENTITY || "VIBES FAMILY DMCC";
 export const LEGAL_ADDRESS =
-  "Unit No 972, DMCC Business Centre, Level No 1, Jewellery & Gemplex 3, Dubai, United Arab Emirates";
+  "Unit No 691, DMCC Business Centre, Level No 1, Jewellery & Gemplex 3, Dubai, United Arab Emirates";
 /** Plausible stand-in so the page reads as finished in review. It follows the
  *  domain, so it changes when the domain is chosen. NOT yet a real mailbox. */
 export const SUPPORT_EMAIL =

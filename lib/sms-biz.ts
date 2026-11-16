@@ -5,9 +5,15 @@
    compares the page to the profile, and a legal name or an address that does
    not match is a rejection, which costs the fee again.
 
-   Source: the Federal Tax Authority Corporate Tax Registration Certificate
-   (certificate 0000485986) the client sent on 25 Oct 2026, plus the DMCC
-   licence listed on it. Nothing here is typed from memory.
+   Source: the DMCC trade licence (licence DMCC-749996, expires 21 Dec 2026),
+   which is the document the carrier's provider verifies against. Nothing here
+   is typed from memory.
+
+   THE FIRST FILING WAS REJECTED FOR EXACTLY THIS. It was built from the
+   Federal Tax Authority certificate, which names the company VIBES FAMILY
+   FZCO at Unit 972, while the trade licence names it VIBES FAMILY DMCC at
+   Unit 691. The carrier checks the licence, so the licence wins. If the two
+   documents ever disagree again, the licence is the one to copy.
 
    The entity is a UAE free zone company, not a US one, so there is no EIN.
    The carriers' "business registration number" for this filing is the DMCC
@@ -19,17 +25,19 @@ export const BIZ = {
   /** The A2P brand name, as filed. */
   brand: "Mo Vlogs",
   /** Legal Business Name on the compliance profile. */
-  legal: "VIBES FAMILY FZCO",
-  /** Free zone corporation, which is the entity type the filing asks for. */
-  entityType: "Free zone (FZCO) corporation",
+  legal: "VIBES FAMILY DMCC",
+  /** "Legal Status" on the licence, word for word. */
+  entityType: "Free Zone Company",
   /** Who issued the licence. */
   authority: "Dubai Multi Commodities Centre (DMCC) Free Zone",
   /** The licence number, which is what the carriers mean by registration number. */
   registration: "DMCC-749996",
+  /** The separate registration number printed on the same licence. */
+  registrationNumber: "DMCC180154",
   /** UAE Corporate Tax Registration Number. */
   trn: "100498182300001",
   address:
-    "Unit No 972, DMCC Business Centre, Level No 1, Jewellery & Gemplex 3, Dubai, United Arab Emirates",
+    "Unit No 691, DMCC Business Centre, Level No 1, Jewellery & Gemplex 3, Dubai, United Arab Emirates",
   country: "United Arab Emirates",
   /** Must be a mailbox somebody reads: the reviewer may write to it. */
   support: "movlogsagency@gmail.com",

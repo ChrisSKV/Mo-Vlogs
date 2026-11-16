@@ -144,7 +144,8 @@ ${OFFER.map(([t, d]) => `<li><strong>${esc(t)}</strong> ${esc(d)}</li>`).join("\
 <p><strong>Legal entity:</strong> ${esc(BIZ.legal)}</p>
 <p><strong>Entity type:</strong> ${esc(BIZ.entityType)}</p>
 <p><strong>Licensing authority:</strong> ${esc(BIZ.authority)}</p>
-<p><strong>Business registration number:</strong> ${esc(BIZ.registration)}</p>
+<p><strong>Trade licence number:</strong> ${esc(BIZ.registration)}</p>
+<p><strong>Registration number:</strong> ${esc(BIZ.registrationNumber)}</p>
 <p><strong>Tax registration number:</strong> ${esc(BIZ.trn)}</p>
 <p><strong>Registered address:</strong> ${esc(BIZ.address)}</p>
 <p><strong>Website:</strong> <a href="https://${BIZ.website}">${BIZ.website}</a></p>
