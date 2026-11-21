@@ -6,6 +6,8 @@
  * finished when it is not. See docs/build-challenge-spec.html §11-12.
  */
 
+import { BIZ } from "@/lib/sms-biz";
+
 export const PRIZE = "$10,000";
 
 /** No equity figure has ever been agreed against $10,000. The 10% was a
@@ -44,15 +46,15 @@ export const SHORTLIST_DATE = "12 October";
 export const FINAL_DATE = "14 November";
 
 export const COMPANY = process.env.NEXT_PUBLIC_COMPANY_NAME || "The Build Challenge";
-/** From the Federal Tax Authority certificate, and it must keep matching
- *  lib/sms-biz.ts and the carrier filing. */
-export const LEGAL_ENTITY = process.env.NEXT_PUBLIC_LEGAL_ENTITY || "VIBES FAMILY DMCC";
-export const LEGAL_ADDRESS =
-  "Unit No 691, DMCC Business Centre, Level No 1, Jewellery & Gemplex 3, Dubai, United Arab Emirates";
-/** Plausible stand-in so the page reads as finished in review. It follows the
- *  domain, so it changes when the domain is chosen. NOT yet a real mailbox. */
-export const SUPPORT_EMAIL =
-  process.env.NEXT_PUBLIC_SUPPORT_EMAIL || "movlogsagency@gmail.com";
+/** Straight from lib/sms-biz.ts (the DMCC trade licence), never typed twice
+ *  and never overridable by an env var: a reviewer compares every page to the
+ *  carrier filing, and the 2026-11-20 rejection was partly a name mismatch. */
+export const LEGAL_ENTITY: string = BIZ.legal;
+export const LEGAL_ADDRESS: string = BIZ.address;
+/** One support address for every page, and it is the one in the carrier
+ *  filing: lib/sms-biz.ts owns it, so changing it there changes it everywhere
+ *  (footer, /privacy, /rules, /sms, /legal/sms-terms). */
+export const SUPPORT_EMAIL: string = BIZ.support;
 
 /** Flips confirmation copy from email-only to SMS/WhatsApp. Sender-ID
  *  registration (TDRA / CITC / DLT / 10DLC) is a multi-week process, so day

@@ -39,7 +39,9 @@ export const BIZ = {
   address:
     "Unit No 691, DMCC Business Centre, Level No 1, Jewellery & Gemplex 3, Dubai, United Arab Emirates",
   country: "United Arab Emirates",
-  /** Must be a mailbox somebody reads: the reviewer may write to it. */
+  /** Must be a mailbox somebody reads: the reviewer may write to it. It must
+   *  ALSO be on the website's own domain: the 2026-11-20 rejection named the
+   *  Gmail address. Every page reads it from here, so this is the one edit. */
   support: "movlogsagency@gmail.com",
   website: "movlogs.ai",
 } as const;

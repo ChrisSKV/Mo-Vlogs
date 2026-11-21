@@ -187,7 +187,7 @@ ${result ? `<p class="msg">${esc(result)}</p>` : ""}
 <p>Reply <strong>STOP</strong> to any message from us to stop receiving texts. You will get one message confirming that you have been unsubscribed, and nothing after it. Reply <strong>HELP</strong> for help, or email <a href="mailto:${BIZ.support}">${BIZ.support}</a>.</p>
 
 <h3>Your number</h3>
-<p>We do not sell, rent or share your mobile number or your SMS consent with third parties or affiliates for their own marketing or promotional purposes. Mobile carriers are not liable for delayed or undelivered messages.</p>
+<p>We do not sell, rent or share your mobile number or your SMS consent with third parties or affiliates for their own marketing or promotional purposes. Mobile/SMS opt-in data and consent will not be shared with third parties or affiliates for marketing or promotional purposes. SMS opt-in data and consent will not be shared with any third parties except service providers used solely to deliver the messages. Mobile carriers are not liable for delayed or undelivered messages.</p>
 
 <footer>
 <p>${esc(BIZ.legal)}, ${esc(BIZ.address)} &middot; <a href="mailto:${BIZ.support}">${BIZ.support}</a> &middot; <a href="/privacy">Privacy Policy</a> &middot; <a href="/legal/sms-terms">SMS Terms</a></p>

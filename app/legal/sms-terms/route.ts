@@ -51,8 +51,11 @@ footer{margin-top:40px;font-size:13.5px;opacity:.8}
 <div class="wrap">
 <h1>SMS Terms and Conditions</h1>
 <p class="lede">${esc(BIZ.legal)}, including its ${esc(BIZ.brand)} brand. Last updated ${esc(TERMS.version)}.</p>
-${TERMS.html}
-<p>You can start or stop text messages on our <a href="/sms">SMS sign-up page</a>. See also our <a href="/privacy">Privacy Policy</a>.</p>
+${TERMS.html
+  .split("{SUPPORT}").join(`<a href="mailto:${BIZ.support}">${BIZ.support}</a>`)
+  .split("{LEGAL}").join(esc(BIZ.legal))
+  .split("{ADDRESS}").join(esc(BIZ.address))}
+<p>You can start or stop text messages on our <a href="/sms">SMS sign-up page</a>. How we handle your information is in our <a href="/privacy">Privacy Policy</a>.</p>
 <footer>
 <p>${esc(BIZ.legal)}, ${esc(BIZ.address)} &middot; <a href="mailto:${BIZ.support}">${BIZ.support}</a></p>
 </footer>

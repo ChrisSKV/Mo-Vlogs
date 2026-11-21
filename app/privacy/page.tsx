@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { Clause, LegalPage, Todo } from "@/components/legal-page";
-import { COMPANY, LEGAL_ADDRESS, LEGAL_ENTITY, SUPPORT_EMAIL } from "@/lib/tokens";
+import { Clause, LegalPage } from "@/components/legal-page";
+import { BIZ } from "@/lib/sms-biz";
+import { LEGAL_ADDRESS, LEGAL_ENTITY, SUPPORT_EMAIL } from "@/lib/tokens";
 
 export const metadata: Metadata = {
   title: "Privacy | The Build Challenge",
@@ -9,17 +10,20 @@ export const metadata: Metadata = {
 };
 
 /* ---------------------------------------------------------------------------
-   DRAFTING FRAMEWORK — NOT LEGAL ADVICE.
-
    Written to be READ, not to be survived. This audience has been warned that
    people impersonate Mo to harvest personal details, so a privacy page that
    sounds like a law firm confirms the fear. Plain sentences, and the answer to
    "how do I make this stop" is in the second paragraph rather than clause 11.
+
+   NO PLACEHOLDERS ON THIS PAGE, EVER. It is filed with the SMS registration,
+   and Close's reviewer rejected it on 2026-11-20 because it still showed
+   drafting marks. The SMS clause carries the two non-sharing sentences carriers
+   look for, word for word. RUNBOOK 10c.
    ------------------------------------------------------------------------- */
 
 export default function PrivacyPage() {
   return (
-    <LegalPage title="Privacy" updated={<Todo>{"{DATE}"}</Todo>}>
+    <LegalPage title="Privacy" updated="21 November 2026">
       <p className="rounded-2xl border border-line bg-surface p-5 text-[15px] leading-[1.65]">
         Short version: we collect your name, email and phone number. We use them
         to send you the Build Pack, to call you about the competition and our
@@ -33,9 +37,12 @@ export default function PrivacyPage() {
 
       <Clause n="1" title="Who we are">
         <p>
-          {LEGAL_ENTITY}, {LEGAL_ADDRESS} <Todo>legal entity and address required</Todo>,
-          trading as {COMPANY}. We decide how your information is used, which
-          makes us the data controller.
+          {LEGAL_ENTITY}, a {BIZ.entityType.toLowerCase()} licensed by the{" "}
+          {BIZ.authority} under trade licence {BIZ.registration}, registered at{" "}
+          {LEGAL_ADDRESS}, trading as {BIZ.brand}. {BIZ.brand} is an online
+          education brand that teaches beginners to build software with AI
+          tools, and runs The Build Challenge. We decide how your information
+          is used, which makes us the data controller.
         </p>
       </Clause>
 
@@ -78,24 +85,57 @@ export default function PrivacyPage() {
 
       <Clause n="4" title="Who else sees it">
         <p>
-          The people who run our sales calls, and the software we use to store
-          entries, send email and make calls{" "}
-          <Todo>name the CRM, email and telephony providers here</Todo>. They are
-          only allowed to use your information to do that work for us.
+          The people who run our sales calls, and the service providers we use
+          to run this website and contact you: Close (our CRM, which we also
+          use to call you and, if you opted in, to text you), Vercel (which
+          hosts this website) and Neon (the database that keeps the record of
+          your text message consent). They are only allowed to use your
+          information to do that work for us.
         </p>
         <p>We do not sell your information. We do not share it for anyone else to advertise to you.</p>
       </Clause>
 
-      <Clause n="5" title="How long we keep it">
+      <Clause n="5" title="Text messages (SMS)">
         <p>
-          For as long as the competition is running and for{" "}
-          <Todo>{"{N}"}</Todo> months after it ends, so we can contact you about
-          the next season. Then we delete it. If you ask us to delete it sooner,
-          we do it within 30 days.
+          We text you only if you ticked a box asking for text messages, either
+          on the entry form or on our{" "}
+          <a href="/sms" className="font-medium text-gold-deep underline underline-offset-2">
+            SMS sign-up page
+          </a>
+          . Service texts and promotional texts are separate boxes, both
+          optional, and neither is a condition of entry or of any purchase.
+          Message frequency varies. Message and data rates may apply. Reply
+          STOP to any text to stop, or HELP for help.
+        </p>
+        <p className="font-medium text-ink">
+          Mobile/SMS opt-in data and consent will not be shared with third
+          parties or affiliates for marketing or promotional purposes.
+        </p>
+        <p className="font-medium text-ink">
+          SMS opt-in data and consent will not be shared with any third parties
+          except service providers used solely to deliver the messages.
+        </p>
+        <p>
+          The full text message terms are on our{" "}
+          <a href="/legal/sms-terms" className="font-medium text-gold-deep underline underline-offset-2">
+            SMS Terms
+          </a>{" "}
+          page.
         </p>
       </Clause>
 
-      <Clause n="6" title="Age">
+      <Clause n="6" title="How long we keep it">
+        <p>
+          For as long as the competition is running and for 12 months after it
+          ends, so we can contact you about the next season. Then we delete it.
+          A record of your text message consent, or of your opt-out, is kept for
+          as long as we are able to text you and for 4 years after, because
+          carriers ask us to be able to prove it. If you ask us to delete your
+          information sooner, we do it within 30 days.
+        </p>
+      </Clause>
+
+      <Clause n="7" title="Age">
         <p>
           This competition is for people aged 18 and over and we do not
           knowingly collect information from anyone younger. The confirmation
@@ -109,7 +149,7 @@ export default function PrivacyPage() {
         </p>
       </Clause>
 
-      <Clause n="7" title="Your choices">
+      <Clause n="8" title="Your choices">
         <p>
           You can ask us for a copy of what we hold, ask us to correct it, ask
           us to delete it, or tell us to stop contacting you. One email to{" "}
@@ -120,25 +160,29 @@ export default function PrivacyPage() {
         </p>
       </Clause>
 
-      <Clause n="8" title="Cookies">
+      <Clause n="9" title="Cookies">
         <p>
-          We use what the site needs to work, and analytics that tell us how
-          many people reached each part of the page, so we can fix what is
-          broken <Todo>list the analytics and any advertising pixels actually deployed</Todo>.
+          We use only what the site needs to work, such as remembering what you
+          typed into the form while you finish it. We do not run analytics,
+          advertising pixels or tracking cookies on this site.
         </p>
       </Clause>
 
-      <Clause n="9" title="Where your information goes">
+      <Clause n="10" title="Where your information goes">
         <p>
           We are based in the UAE and our team works there, so your information
           is handled there and in any country where our software providers keep
-          their servers <Todo>counsel to confirm transfer wording for the territories in scope</Todo>.
+          their servers, including the United States. Those providers are
+          bound to use it only to provide their service to us.
         </p>
       </Clause>
 
       <p className="text-[13px] text-muted">
-        This page is a drafting framework prepared by the build team and must be
-        reviewed by qualified counsel before the form goes live.
+        {LEGAL_ENTITY}, {LEGAL_ADDRESS}. Contact{" "}
+        <a href={`mailto:${SUPPORT_EMAIL}`} className="underline underline-offset-2">
+          {SUPPORT_EMAIL}
+        </a>
+        .
       </p>
     </LegalPage>
   );

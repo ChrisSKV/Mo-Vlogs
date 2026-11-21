@@ -8,6 +8,8 @@ import {
   CLOSE_DATE,
   DATES_CONFIRMED,
   FINAL_DATE,
+  LEGAL_ADDRESS,
+  LEGAL_ENTITY,
   PRIZE,
   PRIZE_EQUITY,
   PRIZE_RING_FENCED,
@@ -646,10 +648,32 @@ export function Footer() {
               >
                 Privacy
               </a>
+              <a
+                href="/legal/sms-terms"
+                className="font-medium text-slate underline underline-offset-4 hover:text-ink"
+              >
+                SMS Terms
+              </a>
             </p>
           </div>
 
           <div className="mt-7 space-y-2.5 border-t border-line pt-6 text-[12.5px] leading-relaxed text-muted">
+            {/* Who runs this, what it is, and how to reach us, in plain text
+                in the served HTML. The SMS carrier reviewer reads this page
+                and rejected it on 2026-11-20 for not saying it. Name and
+                address come from lib/sms-biz.ts, exactly as filed. */}
+            <p className="max-w-[78ch]">
+              Mo Vlogs is an online education brand that teaches beginners to
+              build software with AI tools, and runs The Build Challenge.
+              Operated by {LEGAL_ENTITY}, {LEGAL_ADDRESS}. Contact{" "}
+              <a
+                href={`mailto:${SUPPORT_EMAIL}`}
+                className="font-semibold text-ink hover:underline"
+              >
+                {SUPPORT_EMAIL}
+              </a>
+              .
+            </p>
             <p className="max-w-[78ch]">
               Not affiliated with, endorsed by, or partnered with Base44 or Wix.
               We use the product name to describe the tool we teach.
