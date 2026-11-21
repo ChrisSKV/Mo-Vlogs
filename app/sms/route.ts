@@ -26,7 +26,7 @@
    is filed cannot drift apart. RUNBOOK 10c.
    ============================================================================= */
 import COPY from "@/lib/sms-consent.json";
-import { BIZ, bizComplete } from "@/lib/sms-biz";
+import { BIZ, bizProblems } from "@/lib/sms-biz";
 
 /* The result banner is read from the query string the API redirects back with,
    so the page must not be cached. */
@@ -79,6 +79,16 @@ const RESULTS: Record<string, string> = {
 export function GET(req: Request) {
   const result = RESULTS[new URL(req.url).searchParams.get("sms") || ""] || "";
 
+  /* The "not ready to file" block is for us, never for the reviewer: one who
+     reads it on the page he was sent has his answer. The gate that actually
+     stops a bad filing is scripts/check-sms-identity.mjs, which exits non-zero.
+     SMS_IDENTITY_WARNINGS=1 shows the list on production while checking a
+     deploy by hand. */
+  const problems =
+    process.env.VERCEL_ENV !== "production" || process.env.SMS_IDENTITY_WARNINGS === "1"
+      ? bizProblems()
+      : [];
+
   const html = `<!doctype html>
 <html lang="en">
 <head>
@@ -104,6 +114,7 @@ a{color:#9a6b1f}
 .identity{background:#fff;border:1px solid rgba(0,0,0,.1);border-radius:12px;padding:18px 20px;margin-top:12px}
 .identity p{margin:4px 0;font-size:15px}
 .todo{background:#fff3cd;border:1px solid #d8b23a;border-radius:10px;padding:14px 16px;margin:16px 0;font-size:14.5px}
+.todo ul{margin:8px 0 0}
 .msg{padding:12px 14px;border-radius:8px;background:#f1ece2;font-weight:600;margin:0 0 16px}
 form{display:flex;flex-direction:column;gap:12px}
 label.f{font-weight:700;font-size:15px;margin-bottom:-6px}
@@ -122,9 +133,11 @@ footer{margin-top:40px;font-size:13.5px;opacity:.8}
 <p class="lede">An online education brand teaching people to build software with AI tools. Operated by ${esc(BIZ.legal)}, ${esc(BIZ.country)}.</p>
 
 ${
-  bizComplete()
+  problems.length === 0
     ? ""
-    : `<div class="todo"><strong>Not ready to file.</strong> The business identity below still contains placeholders. Fill lib/sms-biz.ts with the details exactly as submitted to the carrier before this URL is given to anyone.</div>`
+    : `<div class="todo"><strong>Not ready to file.</strong> Do not give this URL to a reviewer yet. Fix lib/sms-biz.ts:<ul>${problems
+        .map((p) => `<li>${esc(p)}</li>`)
+        .join("")}</ul></div>`
 }
 
 <h2>Who we are</h2>

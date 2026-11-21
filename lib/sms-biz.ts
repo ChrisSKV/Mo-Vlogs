@@ -39,17 +39,97 @@ export const BIZ = {
   address:
     "Unit No 691, DMCC Business Centre, Level No 1, Jewellery & Gemplex 3, Dubai, United Arab Emirates",
   country: "United Arab Emirates",
-  /** Must be a mailbox somebody reads: the reviewer may write to it. It must
-   *  ALSO be on the website's own domain: the 2026-11-20 rejection named the
-   *  Gmail address. Every page reads it from here, so this is the one edit. */
+  /** Must be a mailbox somebody reads: the reviewer may write to it, and it
+   *  must be on movlogs.ai. The 2026-11-20 rejection named this Gmail address
+   *  by name. checkSupportEmail() below refuses it, so
+   *  `node scripts/check-sms-identity.mjs` fails until there is a real
+   *  support@movlogs.ai mailbox. STILL OPEN as of 2026-11-21. */
   support: "movlogsagency@gmail.com",
   website: "movlogs.ai",
 } as const;
 
-/** True once every placeholder has been replaced. Guards the page.
- *  Checks the VALUES, not the serialised object: JSON.stringify always starts
- *  with a brace, so stringifying it reported every filled-in identity as
- *  incomplete and printed the warning on a page that was ready. */
+/* -----------------------------------------------------------------------------
+   The guard. The /sms page prints every problem it finds and refuses to read as
+   ready, and scripts/check-sms-identity.mjs exits non-zero on the same list, so
+   a half-filled identity cannot reach a reviewer.
+   -------------------------------------------------------------------------- */
+
+/** Mailboxes a carrier reviewer treats as "this is not a business". */
+const FREE_MAIL = [
+  "gmail.com", "googlemail.com", "yahoo.com", "yahoo.co.uk", "ymail.com",
+  "hotmail.com", "hotmail.co.uk", "outlook.com", "live.com", "msn.com",
+  "icloud.com", "me.com", "mac.com", "aol.com", "proton.me", "protonmail.com",
+  "gmx.com", "gmx.de", "mail.com", "yandex.com", "yandex.ru", "zoho.com",
+  "qq.com", "163.com", "mail.ru", "inbox.com", "fastmail.com", "tutanota.com",
+];
+
+/** Addresses that are obviously still the template. */
+const PLACEHOLDER_MAIL = [
+  "example.com", "example.org", "domain.com", "yourdomain.com", "mysite.com",
+  "test.com", "email.com", "changeme", "placeholder", "yourbrand", "clientname",
+];
+
+/** The last two labels of a host, so a funnel on join.brand.com may use a
+ *  mailbox on brand.com. Two-part public suffixes (.co.uk) would need a real
+ *  suffix list; if a client is on one, check that pair by hand. */
+function registrable(host: string): string {
+  const p = host.toLowerCase().replace(/\.$/, "").split(".");
+  return p.length <= 2 ? p.join(".") : p.slice(-2).join(".");
+}
+
+/** Every reason this identity is not fit to file. Empty means it is. */
+export function bizProblems(): string[] {
+  const out: string[] = [];
+
+  for (const [k, v] of Object.entries(BIZ)) {
+    if (typeof v !== "string") continue;
+    if (!v.trim()) out.push(`${k} is empty.`);
+    else if (/[{}]/.test(v)) out.push(`${k} is still the placeholder: ${v}`);
+  }
+
+  const site = BIZ.website.toLowerCase();
+  if (/^https?:|\/|\s/.test(site)) {
+    out.push(`website must be a bare host with no protocol and no slash, got: ${BIZ.website}`);
+  }
+
+  out.push(...checkSupportEmail(BIZ.support, site));
+  return out;
+}
+
+/** The email rule on its own, so the script and the page cannot disagree. */
+export function checkSupportEmail(raw: string, site: string): string[] {
+  const email = (raw || "").trim().toLowerCase();
+  const out: string[] = [];
+
+  if (!email) return ["support email is empty. Nothing may be filed without a mailbox."];
+  if (/[{}]/.test(email) || /\s/.test(email)) {
+    return [`support email is still the placeholder: ${raw}`];
+  }
+  if (!/^[^@\s]+@[^@\s]+\.[a-z]{2,}$/.test(email)) {
+    return [`support email is not a valid address: ${raw}`];
+  }
+
+  const domain = email.split("@")[1];
+
+  if (PLACEHOLDER_MAIL.some((p) => email.includes(p))) {
+    out.push(`support email is a template address, not a real mailbox: ${raw}`);
+  }
+  if (FREE_MAIL.includes(domain)) {
+    out.push(
+      `support email is on a free provider (${domain}). The carrier rejects it. ` +
+        `Create a mailbox on ${site || "the site's own domain"} and use that.`,
+    );
+  }
+  if (site && !/[{}]/.test(site) && registrable(domain) !== registrable(site)) {
+    out.push(
+      `support email domain (${domain}) is not the site's domain (${site}). ` +
+        `A reviewer checks that the contact belongs to the business that owns the page.`,
+    );
+  }
+  return out;
+}
+
+/** Kept for the pages: true once there is nothing left to fix. */
 export function bizComplete(): boolean {
-  return !Object.values(BIZ).some((v) => typeof v === "string" && v.includes("{"));
+  return bizProblems().length === 0;
 }
