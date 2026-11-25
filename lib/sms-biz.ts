@@ -44,7 +44,7 @@ export const BIZ = {
    *  by name. checkSupportEmail() below refuses it, so
    *  `node scripts/check-sms-identity.mjs` fails until there is a real
    *  support@movlogs.ai mailbox. STILL OPEN as of 2026-11-21. */
-  support: "movlogsagency@gmail.com",
+  support: "support@movlogs.ai",
   website: "movlogs.ai",
 } as const;
 
